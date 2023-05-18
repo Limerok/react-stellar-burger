@@ -1,0 +1,32 @@
+.section {
+  max-width: 600px;
+  width: 100%;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredient {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.item {
+  max-width: 272px;
+  width: 100%;
+}
+
+.item:nth-child(odd) {
+  margin-right: 20px;
+}
+
+.scroll {
+  max-height: 716px;
+  overflow-y: scroll;
+}

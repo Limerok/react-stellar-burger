@@ -1,0 +1,40 @@
+.section {
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list {
+  margin: 0;
+  padding: 0 8px 0 0;
+  list-style-type: none;
+  max-height: 464px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.point {
+  gap: 9px;
+  display: flex;
+  align-items: center;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
