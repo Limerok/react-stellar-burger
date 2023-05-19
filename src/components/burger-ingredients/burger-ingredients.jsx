@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredient from "./burger-ingredients.module.css";
 import BurgerIngredientItem from "../burger-ingredient-item/burger-ingredient-item";
 import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 
+const bunType = 'bun';
+const sauceType = 'sauce';
+const fillingType = 'main';
+
 const BurgerIngredients = ({ ingredients }) => {
   
   const [current, setCurrent] = React.useState("bun");
 
-  const bunType = 'bun';
-  const sauceType = 'sauce';
-  const fillingType = 'main';
-
-  const filteredBunIngridient = ingredients.filter(element => element.type === bunType);
-  const filteredSauseIngridient = ingredients.filter(element => element.type === sauceType);
-  const filteredfillingIngridient = ingredients.filter(element => element.type === fillingType);
+  const filteredBunIngridient = useMemo(() => ingredients.filter(element => element.type === bunType),[ingredients, bunType]);
+  const filteredSauseIngridient = useMemo(() => ingredients.filter(element => element.type === sauceType), [ingredients, sauceType]);
+  const filteredfillingIngridient = useMemo(() => ingredients.filter(element => element.type === fillingType), [ingredients, fillingType]);
 
   return (
     <section className={ingredient.section}>
