@@ -3,9 +3,9 @@ import styleItem from "./burger-ingredient-item.module.css";
 import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 
-const BurgerIngredientItem = ({ingredient}) => {
+const BurgerIngredientItem = ({ingredient, openIngredient}) => {
   return (
-    <div className={styleItem.container}>
+    <div className={styleItem.container} onClick={()=> openIngredient(ingredient)}>
       <Counter count={1} size="default" extraClass="m-1" />
       <img className="ml-4 mr-4 mb-1" src={ingredient.image} alt={ingredient.name} />
       <div className={styleItem.price}>

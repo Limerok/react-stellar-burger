@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   ConstructorElement,
@@ -7,8 +8,27 @@ import {
 import style from "./burger-constructor.module.css";
 import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 const BurgerConstructor = ({ ingredients }) => {
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const orderText = {
+    number: '034536',
+    textId: 'идентификатор заказа',
+    orderStatus: 'Ваш заказ начали готовить',
+    orderDescription: 'Дождитесь готовности на орбитальной станции'
+  }
+
+  const handleOpenModalOrder = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModalOrder = () => {
+    setModalOpen(false);
+  };
+
   return (
     <section className={`${style.section} mt-25 pl-4`}>
       <div className={style.container}>
@@ -49,10 +69,15 @@ const BurgerConstructor = ({ ingredients }) => {
           <CurrencyIcon type="primary"/>
         </div>
         
-        <Button htmlType="button" type="primary" size="medium">
+        <Button onClick={handleOpenModalOrder} htmlType="button" type="primary" size="medium">
           Нажми на меня
         </Button>
       </div>
+      {modalOpen && (
+        <Modal closeModal={handleCloseModalOrder}>
+          <OrderDetails orderInfo={orderText}/>
+        </Modal>
+      )}
     </section>
   );
 };
