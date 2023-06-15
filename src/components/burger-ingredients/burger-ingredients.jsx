@@ -34,22 +34,29 @@ const BurgerIngredients = ({ ingredients }) => {
     setCurrentIngredient(null);
   };
 
+  const setTab = (tab) => {
+    setCurrent(tab);
+
+    const element = document.getElementById(tab);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className={ingredient.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <div style={{ display: "flex" }} className="mb-10">
-        <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
+        <Tab value="bun" active={current === "bun"} onClick={()=> {setTab('bun')}}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
+        <Tab value="sauce" active={current === "sauce"} onClick={()=> {setTab('sauce')}}>
           Соусы
         </Tab>
-        <Tab value="filling" active={current === "filling"} onClick={setCurrent}>
+        <Tab value="filling" active={current === "filling"} onClick={()=> {setTab('filling')}}>
           Начинки
         </Tab>
       </div>
       <div className={`${ingredient.scroll} custom-scroll`}>
-        <div className={ingredient.point}>
+        <div className={ingredient.point} id="bun">
           <h2 className="text text_type_main-medium">Булки</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {filteredBunIngridient.map(item => (
@@ -59,7 +66,7 @@ const BurgerIngredients = ({ ingredients }) => {
             ))}
           </ul>
         </div>
-        <div className={ingredient.point}>
+        <div className={ingredient.point} id="sauce">
           <h2 className="text text_type_main-medium">Соусы</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {filteredSauseIngridient.map(item => (
@@ -69,7 +76,7 @@ const BurgerIngredients = ({ ingredients }) => {
             ))}
           </ul>
         </div>
-        <div className={ingredient.point}>
+        <div className={ingredient.point} id="filling">
           <h2 className="text text_type_main-medium">Начинки</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {filteredfillingIngridient.map(item => (
@@ -94,4 +101,4 @@ BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
-export default BurgerIngredients;
+export default React.memo(BurgerIngredients);

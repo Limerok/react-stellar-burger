@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import style from "./modal.module.css"
@@ -57,4 +58,4 @@ Modal.propTypes = {
   title: PropTypes.string
 };
 
-export default Modal;
+export default React.memo(Modal);

@@ -1,3 +1,4 @@
+import React from "react";
 import style from "./ingredient-details.module.css";
 import { ingredientPropType } from '../../utils/prop-types';
 
@@ -39,4 +40,4 @@ IngredientDetails.propTypes = {
   ingredientInfo: ingredientPropType.isRequired,
 };
 
-export default IngredientDetails;
+export default React.memo(IngredientDetails);

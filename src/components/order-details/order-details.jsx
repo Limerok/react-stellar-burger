@@ -1,6 +1,7 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order-details.module.css";
 import PropTypes from "prop-types";
+import React from "react";
 
 const OrderDetails = ({orderInfo}) => {
   return (
@@ -36,4 +37,4 @@ OrderDetails.propTypes = {
   orderInfo: PropTypes.object,
 };
 
-export default OrderDetails;
+export default React.memo(OrderDetails);

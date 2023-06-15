@@ -1,9 +1,11 @@
+import React from "react";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import styleItem from "./burger-ingredient-item.module.css";
 import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 
 const BurgerIngredientItem = ({ingredient, openIngredient}) => {
+
   return (
     <div className={styleItem.container} onClick={()=> openIngredient(ingredient)}>
       <Counter count={1} size="default" extraClass="m-1" />
@@ -21,6 +23,7 @@ const BurgerIngredientItem = ({ingredient, openIngredient}) => {
 
 BurgerIngredientItem.propTypes = {
   ingredient: ingredientPropType.isRequired,
+  openIngredient: PropTypes.func.isRequired,
 };
 
-export default BurgerIngredientItem;
+export default React.memo(BurgerIngredientItem);

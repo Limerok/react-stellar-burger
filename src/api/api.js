@@ -1,5 +1,5 @@
 const settings = {
-  baseUrl: "https://norma.nomoreparties.space/api/ingredients ",
+  baseUrl: "https://norma.nomoreparties.space/api/ingredients",
   headers: {
     "Content-Type": "application/json",
   },
