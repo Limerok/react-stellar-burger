@@ -1,0 +1,11 @@
+.container {
+  position: relative;
+  cursor: pointer;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  align-items: center;
+}
