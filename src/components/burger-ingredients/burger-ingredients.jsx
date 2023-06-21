@@ -2,18 +2,19 @@ import React, { useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredient from "./burger-ingredients.module.css";
 import BurgerIngredientItem from "../burger-ingredient-item/burger-ingredient-item";
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngredientsContext, ConstructorContext } from "../../services/ingredients-context";
 
 const bunType = 'bun';
 const sauceType = 'sauce';
 const fillingType = 'main';
 
-const BurgerIngredients = ({ ingredients }) => {
-  const [current, setCurrent] = React.useState("bun");
+const BurgerIngredients = () => {
+  const ingredients = React.useContext(IngredientsContext);
+  const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
 
+  const [current, setCurrent] = React.useState("bun");
   const [modalOpen, setModalOpen] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState(null);
 
@@ -27,6 +28,11 @@ const BurgerIngredients = ({ ingredients }) => {
   const handleOpenModalIngredient = (item) => {
     setModalOpen(true);
     setCurrentIngredient(item);
+    constructorDispatcher({
+      type: "add",
+      ingredient: item
+  });
+    
   };
 
   const handleCloseModalIngredient = () => {
@@ -95,10 +101,6 @@ const BurgerIngredients = ({ ingredients }) => {
       
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
 export default React.memo(BurgerIngredients);
