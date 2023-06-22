@@ -1,20 +1,19 @@
 import React, { useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from 'prop-types';
 import ingredient from "./burger-ingredients.module.css";
 import BurgerIngredientItem from "../burger-ingredient-item/burger-ingredient-item";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { IngredientsContext, ConstructorContext } from "../../services/ingredients-context";
+import { ConstructorContext } from "../../services/ingredients-context";
+import { ingredientPropType } from '../../utils/prop-types';
+import { bunType, sauceType, fillingType } from "../../utils/constant";
 
-const bunType = 'bun';
-const sauceType = 'sauce';
-const fillingType = 'main';
 
-const BurgerIngredients = () => {
-  const ingredients = React.useContext(IngredientsContext);
+const BurgerIngredients = ({ingredients}) => {
   const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
 
-  const [current, setCurrent] = React.useState("bun");
+  const [current, setCurrent] = React.useState(bunType);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState(null);
 
@@ -51,18 +50,18 @@ const BurgerIngredients = () => {
     <section className={ingredient.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <div style={{ display: "flex" }} className="mb-10">
-        <Tab value="bun" active={current === "bun"} onClick={()=> {setTab('bun')}}>
+        <Tab value={bunType} active={current === {bunType}} onClick={()=> {setTab(bunType)}}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === "sauce"} onClick={()=> {setTab('sauce')}}>
+        <Tab value={sauceType} active={current === {sauceType}} onClick={()=> {setTab(sauceType)}}>
           Соусы
         </Tab>
-        <Tab value="filling" active={current === "filling"} onClick={()=> {setTab('filling')}}>
+        <Tab value={fillingType} active={current === {fillingType}} onClick={()=> {setTab(fillingType)}}>
           Начинки
         </Tab>
       </div>
       <div className={`${ingredient.scroll} custom-scroll`}>
-        <div className={ingredient.point} id="bun">
+        <div className={ingredient.point} id={bunType}>
           <h2 className="text text_type_main-medium">Булки</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {filteredBunIngridient.map(item => (
@@ -72,7 +71,7 @@ const BurgerIngredients = () => {
             ))}
           </ul>
         </div>
-        <div className={ingredient.point} id="sauce">
+        <div className={ingredient.point} id={sauceType}>
           <h2 className="text text_type_main-medium">Соусы</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {filteredSauseIngridient.map(item => (
@@ -82,7 +81,7 @@ const BurgerIngredients = () => {
             ))}
           </ul>
         </div>
-        <div className={ingredient.point} id="filling">
+        <div className={ingredient.point} id={fillingType}>
           <h2 className="text text_type_main-medium">Начинки</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {filteredfillingIngridient.map(item => (
@@ -102,5 +101,9 @@ const BurgerIngredients = () => {
     </section>
   );
 };
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+}
 
 export default React.memo(BurgerIngredients);

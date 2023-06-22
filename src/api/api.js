@@ -1,4 +1,5 @@
-const baseUrl = "https://norma.nomoreparties.space/api";
+import { baseUrl } from "../utils/constant";
+
 
 
 const checkResponse = (res) => {
@@ -10,14 +11,6 @@ const checkResponse = (res) => {
 
 // получение данных с сервера
 const getData = () => fetch(`${baseUrl}/ingredients`).then(checkResponse);
-
-/* const getOrder = (ingredientsId) => {
-  
-
-  const res = fetch(`${baseUrl}/orders`, settings)
-
-  checkResponse(res)
-} */
 
 const getOrder = (ingredientsId) => {
   const settings = {

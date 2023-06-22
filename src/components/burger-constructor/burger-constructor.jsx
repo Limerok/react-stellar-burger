@@ -13,24 +13,7 @@ import { getOrder } from "../../api/api";
 
 const BurgerConstructor = () => {
   const { constructorState } = React.useContext(ConstructorContext);
-  const [modalOpen, setModalOpen] = React.useState(false);
-
   const [orderNumber, setOrderNumber] = React.useState("");
-
-  const orderText = {
-    number: orderNumber,
-    textId: "идентификатор заказа",
-    orderStatus: "Ваш заказ начали готовить",
-    orderDescription: "Дождитесь готовности на орбитальной станции",
-  };
-
-  const handleOpenModalOrder = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModalOrder = () => {
-    setModalOpen(false);
-  };
 
   async function createOrder() {
     const ingredientsId = constructorState.ingredients.map((ingredient) => {
@@ -43,10 +26,8 @@ const BurgerConstructor = () => {
     if (ingredientsId.length > 0) {
         try {
             const data = await getOrder(ingredientsId);
-            console.log(data)
             setOrderNumber(data.order.number)
 
-            handleOpenModalOrder();
         } catch (err) {
             console.log("Post error: ", err)
         }
@@ -61,7 +42,7 @@ const BurgerConstructor = () => {
           {constructorState.bun && (
             <ConstructorElement
               type="top"
-              isLocked={true}
+              isLocked
               text={`${constructorState.bun.name} (верх)`}
               price={constructorState.bun.price}
               thumbnail={constructorState.bun.image}
@@ -84,7 +65,7 @@ const BurgerConstructor = () => {
           {constructorState.bun && (
             <ConstructorElement
               type="bottom"
-              isLocked={true}
+              isLocked
               text={`${constructorState.bun.name} (низ)`}
               price={constructorState.bun.price}
               thumbnail={constructorState.bun.image}
@@ -109,9 +90,9 @@ const BurgerConstructor = () => {
           Нажми на меня
         </Button>
       </div>
-      {modalOpen && (
-        <Modal closeModal={handleCloseModalOrder}>
-          <OrderDetails orderInfo={orderText} />
+      {orderNumber && (
+        <Modal closeModal={()=>{setOrderNumber('')}}>
+          <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
     </section>

@@ -3,7 +3,14 @@ import style from "./order-details.module.css";
 import PropTypes from "prop-types";
 import React from "react";
 
-const OrderDetails = ({orderInfo}) => {
+const OrderDetails = ({orderNumber}) => {
+  const orderInfo = {
+    number: orderNumber,
+    textId: "идентификатор заказа",
+    orderStatus: "Ваш заказ начали готовить",
+    orderDescription: "Дождитесь готовности на орбитальной станции",
+  };
+
   return (
     <ul className={style.container}>
       <li className="mt-10">
@@ -34,7 +41,7 @@ const OrderDetails = ({orderInfo}) => {
 }
 
 OrderDetails.propTypes = {
-  orderInfo: PropTypes.object,
+  orderNumber: PropTypes.number,
 };
 
 export default React.memo(OrderDetails);
