@@ -1,9 +1,6 @@
-const settings = {
-  baseUrl: "https://norma.nomoreparties.space/api/ingredients",
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
+import { baseUrl } from "../utils/constant";
+
+
 
 const checkResponse = (res) => {
   if (res.ok) {
@@ -13,6 +10,20 @@ const checkResponse = (res) => {
 };
 
 // получение данных с сервера
-const getData = () => fetch(`${settings.baseUrl}`).then(checkResponse);
+const getData = () => fetch(`${baseUrl}/ingredients`).then(checkResponse);
 
-export { getData };
+const getOrder = (ingredientsId) => {
+  const settings = {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ "ingredients": ingredientsId })
+};
+
+  return fetch(`${baseUrl}/orders`, settings)
+  .then(checkResponse)
+}
+
+export { getData, getOrder };
