@@ -10,6 +10,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { ConstructorContext } from "../../services/ingredients-context";
 import { getOrder } from "../../api/api";
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerConstructor = () => {
   const { constructorState } = React.useContext(ConstructorContext);
@@ -51,7 +52,7 @@ const BurgerConstructor = () => {
         </div>
         <ul className={`${style.list} custom-scroll`}>
           {constructorState.ingredients.map((item) => (
-            <li key={item._id} className={`${style.point}`}>
+            <li key={uuidv4()} className={`${style.point}`}>
               <DragIcon type="primary" />
               <ConstructorElement
                 text={item.name}
