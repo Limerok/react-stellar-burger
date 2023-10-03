@@ -1,15 +1,28 @@
-import { baseUrl } from "../../utils/constant";
+import {api} from "../../utils/constant";
+import { checkReponse } from "../../utils/utils";
+import { openOrderModal } from "./modal";
 
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
 
+const orderFailed = () => ({
+    type: GET_ORDER_FAILED
+})
+
+const orderRequest = () => ({
+    type: GET_ORDER_REQUEST
+})
+
+const orderSuccess = (order) => ({
+    type: GET_ORDER_SUCCESS,
+    order: order
+})
+
 export function getOrder(ingredientsId) {
     return function(dispatch) {
-        dispatch({
-            type: GET_ORDER_REQUEST
-        });
+        dispatch(orderRequest());
         const settings = {
             method: 'POST',
             headers: {
@@ -18,34 +31,16 @@ export function getOrder(ingredientsId) {
             },
             body: JSON.stringify({ "ingredients": ingredientsId })
         };
-        fetch(`${baseUrl}/orders`, settings)
-        .then( res => {
-            console.log(res)
-            if (res && res.ok ) {
-                return res.json();
+        fetch(`${api}/orders`, settings)
+        .then(res => checkReponse(res))
+        .then(res => {
+            if(res && res.success) {
+                dispatch(orderSuccess(res.order))
+                dispatch(openOrderModal(res.order))
             } else {
-                dispatch({
-                    type: GET_ORDER_FAILED
-                })
+                dispatch(orderFailed())
             }
         })
-        .then( res => {
-            console.log(res, 'fvdf')
-            if( res && res.success ) {
-                dispatch({
-                    type: GET_ORDER_SUCCESS,
-                    order: res.data.order
-                })
-            } else {
-                dispatch({
-                    type: GET_ORDER_FAILED
-                })
-            }
-        })
-        .catch ( err => {
-            dispatch({
-                type: GET_ORDER_FAILED
-            })
-        })
+        .catch (err => dispatch(orderFailed()))
     }
 }

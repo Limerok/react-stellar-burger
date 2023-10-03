@@ -1,6 +1,6 @@
-import React from "react";
 import style from "./ingredient-details.module.css";
-import { ingredientPropType } from '../../utils/prop-types';
+import { useSelector } from "react-redux";
+import { getModalState } from "../../services/reducers/modal";
 
 const text = {
   calories: "Калории,ккал",
@@ -9,35 +9,35 @@ const text = {
   carbohydrates: "Углеводы, г",
 };
 
-const IngredientDetails= ({ingredientInfo}) => {
+const IngredientDetails= () => {
+  const { modalProps } = useSelector(getModalState);
+  const ingredient = modalProps;
+
   return (
     <div className={`${style.info} pb-15`}>
-      <img className={style.image} src={ingredientInfo.image_large} alt="" />
-      <p className={`${style.name} text text_type_main-medium mt-4 mb-8`}>{ingredientInfo.name}</p>
+      <img className={style.image} src={ingredient.image_large} alt="" />
+      <p className={`${style.name} text text_type_main-medium mt-4 mb-8`}>{ingredient.name}</p>
       <ul className={`${style.nutrition}`}>
         <li className={`${style.item}`}>
           <p className={`${style.nutrition__point} text text_type_main-default`}>{text.calories}</p>
-          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredientInfo.calories}</p>
+          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.calories}</p>
         </li>
         <li className={`${style.item}`}>
           <p className={`${style.nutrition__point} text text_type_main-default`}>{text.proteins}</p>
-          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredientInfo.proteins}</p>
+          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.proteins}</p>
         </li>
         <li className={`${style.item}`}>
           <p className={`${style.nutrition__point} text text_type_main-default`}>{text.fat}</p>
-          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredientInfo.fat}</p>
+          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.fat}</p>
         </li>
         <li className={`${style.item}`}>
           <p className={`${style.nutrition__point} text text_type_main-default`}>{text.carbohydrates}</p>
-          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredientInfo.carbohydrates}</p>
+          <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.carbohydrates}</p>
         </li>
       </ul>
     </div>
   )
 }
 
-IngredientDetails.propTypes = {
-  ingredientInfo: ingredientPropType.isRequired,
-};
 
-export default React.memo(IngredientDetails);
+export default IngredientDetails;

@@ -1,104 +1,130 @@
-import React from "react";
 import {
   Button,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burger-constructor.module.css";
+
+
+import burgerConstructor from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { ConstructorContext } from "../../services/ingredients-context";
-import { getOrder } from "../../api/api";
-import { v4 as uuidv4 } from 'uuid';
+
+import { v4 as uuidv4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addIngredient,
+  swapIngedients,
+} from "../../services/actions/burger-constructor";
+import { ItemTypes } from "../../utils/item-types";
+import { getConstructorState } from "../../services/reducers/burger-constructor";
+import { getModalState } from "../../services/reducers/modal";
+import { useCallback, useEffect, useState } from "react";
+import { useDrop } from "react-dnd";
+import { ORDER_MODAL } from "../../services/actions/modal";
+import { ConstructorIngredient } from "../consructor-ingredient/consructor-ingredient";
+import { getOrder } from "../../services/actions/order-details";
 
 const BurgerConstructor = () => {
-  const { constructorState } = React.useContext(ConstructorContext);
-  const [orderNumber, setOrderNumber] = React.useState("");
+  const dispatch = useDispatch();
+    
+  const { ingredients, bun } = useSelector(getConstructorState)
+  const { modalType } = useSelector(getModalState)
+
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+      let totalPrice = 0;
+      ingredients.map(ingredient => (totalPrice += ingredient.price))
+      if (bun) {
+          totalPrice += (bun.price * 2)
+      }
+      setPrice(totalPrice);
+  }, [ingredients, bun])
 
   async function createOrder() {
-    const ingredientsId = constructorState.ingredients.map((ingredient) => {
-        return ingredient._id
-    })
-    if (constructorState.bun) {
-        ingredientsId.push(constructorState.bun._id)
-    }
+      // Создание массива id ингредиентов для оформления заказа
+      const ingredientsId = ingredients.map(ingredient => ingredient._id)
+      if ( bun ) {
+          ingredientsId.push(bun._id)
+      }
 
-    if (ingredientsId.length > 0) {
-        try {
-            const data = await getOrder(ingredientsId);
-            setOrderNumber(data.order.number)
+      if (ingredientsId.length > 0) {
+          // Отправка запроса
+          dispatch(getOrder(ingredientsId))
+      }
+  }
 
-        } catch (err) {
-            console.log("Post error: ", err)
-        }
-    }
-}
+  const moveCard = useCallback((dragIndex, hoverIndex) => {
+      dispatch(swapIngedients(dragIndex, hoverIndex))
+    }, [])
 
+  const [, dropTarget] = useDrop({
+      accept: ItemTypes.INGREDIENT,
+      drop(ingredient) {
+          dispatch(addIngredient(ingredient))
+      },
+  });
 
   return (
-    <section className={`${style.section} mt-25 pl-4`}>
-      <div className={style.container}>
-        <div className="ml-8">
-          {constructorState.bun && (
+    <div ref={dropTarget}>
+      <ul className={`ml-4 mr-4 mt-25 ${burgerConstructor.main}`}>
+        {bun && (
+          <li className={burgerConstructor.li}>
             <ConstructorElement
+              extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
+              text={`${bun.name} (верх)`}
               type="top"
-              isLocked
-              text={`${constructorState.bun.name} (верх)`}
-              price={constructorState.bun.price}
-              thumbnail={constructorState.bun.image}
+              isLocked={true}
+              price={bun.price}
+              thumbnail={bun.image_mobile}
             />
-          )}
-        </div>
-        <ul className={`${style.list} custom-scroll`}>
-          {constructorState.ingredients.map((item) => (
-            <li key={uuidv4()} className={`${style.point}`}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </li>
+          </li>
+        )}
+        <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
+          {ingredients.map((ingredient, index) => (
+            <ConstructorIngredient
+              key={uuidv4()}
+              ingredient={ingredient}
+              index={index}
+              moveCard={moveCard}
+            />
           ))}
-        </ul>
-        <div className="ml-8 mb-10">
-          {constructorState.bun && (
+        </div>
+        {bun && (
+          <li className={burgerConstructor.li}>
             <ConstructorElement
+              extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
+              text={`${bun.name} (низ)`}
               type="bottom"
-              isLocked
-              text={`${constructorState.bun.name} (низ)`}
-              price={constructorState.bun.price}
-              thumbnail={constructorState.bun.image}
+              isLocked={true}
+              price={bun.price}
+              thumbnail={bun.image_mobile}
             />
-          )}
+          </li>
+        )}
+      </ul>
+      <div className={burgerConstructor.sum}>
+        <div className={`mr-10 ${burgerConstructor.price}`}>
+          <p className="text text_type_digits-medium mr-4">{price}</p>
+          <CurrencyIcon />
         </div>
-      </div>
-      <div className={`${style.order} mr-4`}>
-        <div className={`${style.price} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">
-            {constructorState.price}
-          </p>
-          <CurrencyIcon type="primary" />
-        </div>
-
         <Button
-          onClick={createOrder}
+          extraClass="mr-4"
           htmlType="button"
           type="primary"
           size="medium"
+          onClick={createOrder}
         >
-          Нажми на меня
+          Оформить заказ
         </Button>
       </div>
-      {orderNumber && (
-        <Modal closeModal={()=>{setOrderNumber('')}}>
-          <OrderDetails orderNumber={orderNumber} />
+      {modalType === ORDER_MODAL && (
+        <Modal>
+          <OrderDetails />
         </Modal>
       )}
-    </section>
+    </div>
   );
 };
 
-
-export default React.memo(BurgerConstructor);
+export default BurgerConstructor;

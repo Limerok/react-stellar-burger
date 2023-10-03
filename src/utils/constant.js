@@ -1,5 +1,1 @@
-export const baseUrl = "https://norma.nomoreparties.space/api";
-
-export const bunType = 'bun';
-export const sauceType = 'sauce';
-export const fillingType = 'main';
+export const api = "https://norma.nomoreparties.space/api";

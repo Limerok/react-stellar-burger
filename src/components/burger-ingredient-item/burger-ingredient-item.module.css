@@ -1,6 +1,7 @@
 .container {
   position: relative;
   cursor: pointer;
+  max-width: 272px;
 }
 
 .price {
@@ -8,4 +9,8 @@
   justify-content: center;
   gap: 9px;
   align-items: center;
+}
+
+.center {
+  text-align: center;
 }
