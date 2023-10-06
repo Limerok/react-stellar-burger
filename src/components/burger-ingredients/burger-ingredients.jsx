@@ -65,7 +65,7 @@ const BurgerIngredients = () => {
   return (
     <section className={ingredient.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <div style={{ display: "flex" }} className="mb-10">
+      <div className={`${ingredient.nav} mb-10`}>
         <Tab value='one' active={activeTab === bunTab} onClick={setActiveTab}>
           Булки
         </Tab>

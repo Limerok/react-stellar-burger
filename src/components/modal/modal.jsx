@@ -13,9 +13,13 @@ const modalRoot = document.getElementById("modals");
 const Modal = ({ children, title }) => {
   const dispatch = useDispatch();
 
+  function closePopup() {
+    dispatch(closeModal())
+  }
+
   function handleCloseByEsc(e) {
     if (e.key === "Escape") {
-        dispatch(closeModal())
+      closePopup()
     }
   }
 
@@ -38,7 +42,7 @@ const Modal = ({ children, title }) => {
               </h2>
             )}
             <button
-              onClick={() => dispatch(closeModal())}
+              onClick={() => closePopup()}
               className={style.close}
               aria-label="Закрытие модального окна"
             >
@@ -48,7 +52,7 @@ const Modal = ({ children, title }) => {
           {children}
           
         </div>
-        <ModalOverlay handleCloseModal={() => dispatch(closeModal())}/>
+        <ModalOverlay handleCloseModal={() => closePopup()}/>
       </>
     ), modalRoot
   );

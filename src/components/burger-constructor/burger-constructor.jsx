@@ -3,13 +3,9 @@ import {
   ConstructorElement,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-
 import burgerConstructor from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-
-import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addIngredient,
@@ -83,7 +79,7 @@ const BurgerConstructor = () => {
         <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
           {ingredients.map((ingredient, index) => (
             <ConstructorIngredient
-              key={uuidv4()}
+              key={ingredient.uniqueId}
               ingredient={ingredient}
               index={index}
               moveCard={moveCard}
