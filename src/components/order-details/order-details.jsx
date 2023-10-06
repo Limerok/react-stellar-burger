@@ -13,7 +13,7 @@ const OrderDetails = () => {
   };
 
   return (
-    <ul className={style.container}>
+      <ul className={style.container}>
       <li className="mt-10">
         <p className={`${style.number} text text_type_digits-large`}>
           {order.number}

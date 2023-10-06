@@ -36,3 +36,8 @@
   overflow-y: scroll;
   max-width: 600px;
 }
+
+.load {
+  text-align: center;
+  font-size: 20px;
+}

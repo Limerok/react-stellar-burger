@@ -1,5 +1,6 @@
 import {api} from "../../utils/constant";
 import { checkReponse } from "../../utils/utils";
+import { resetConstructor } from "./burger-constructor";
 import { openOrderModal } from "./modal";
 
 
@@ -23,6 +24,7 @@ const orderSuccess = (order) => ({
 export function getOrder(ingredientsId) {
     return function(dispatch) {
         dispatch(orderRequest());
+        dispatch(openOrderModal());
         const settings = {
             method: 'POST',
             headers: {
@@ -37,6 +39,7 @@ export function getOrder(ingredientsId) {
             if(res && res.success) {
                 dispatch(orderSuccess(res.order))
                 dispatch(openOrderModal(res.order))
+                dispatch(resetConstructor())
             } else {
                 dispatch(orderFailed())
             }

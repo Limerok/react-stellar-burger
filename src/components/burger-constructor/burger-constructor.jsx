@@ -19,12 +19,14 @@ import { useDrop } from "react-dnd";
 import { ORDER_MODAL } from "../../services/actions/modal";
 import { ConstructorIngredient } from "../consructor-ingredient/consructor-ingredient";
 import { getOrder } from "../../services/actions/order-details";
+import { getOrderState } from "../../services/reducers/order-details";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
     
-  const { ingredients, bun } = useSelector(getConstructorState)
-  const { modalType } = useSelector(getModalState)
+  const { ingredients, bun } = useSelector(getConstructorState);
+  const { modalType } = useSelector(getModalState);
+  const {orderRequest} = useSelector(getOrderState);
 
   const [price, setPrice] = useState(0);
 
@@ -104,19 +106,19 @@ const BurgerConstructor = () => {
           <p className="text text_type_digits-medium mr-4">{price}</p>
           <CurrencyIcon />
         </div>
-        <Button
-          extraClass="mr-4"
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={createOrder}
-        >
+        {bun === null ? (
+        <Button extraClass="mr-4" htmlType="button" type="primary" size="medium" disabled>
           Оформить заказ
-        </Button>
+        </Button>) : (
+        <Button extraClass="mr-4" htmlType="button" type="primary" size="medium" onClick={createOrder}>
+          Оформить заказ
+        </Button>) }
       </div>
       {modalType === ORDER_MODAL && (
         <Modal>
-          <OrderDetails />
+          {orderRequest ? <p className={burgerConstructor.load}>Оформление заказа...</p> :(
+            <OrderDetails />
+          )}
         </Modal>
       )}
     </div>
