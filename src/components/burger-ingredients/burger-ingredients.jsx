@@ -1,100 +1,122 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
 import ingredient from "./burger-ingredients.module.css";
 import BurgerIngredientItem from "../burger-ingredient-item/burger-ingredient-item";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { ConstructorContext } from "../../services/ingredients-context";
-import { ingredientPropType } from '../../utils/prop-types';
-import { bunType, sauceType, fillingType } from "../../utils/constant";
+import { useDispatch, useSelector } from "react-redux";
+import { getModalState } from "../../services/reducers/modal";
+import { getIngredientsState } from "../../services/reducers/burger-ingredients";
+import { loadIngredients } from "../../services/actions/burger-ingredients";
+import { INGREDIENT_MODAL, openIngredientModal } from "../../services/actions/modal";
 
 
-const BurgerIngredients = ({ingredients}) => {
-  const { constructorState, constructorDispatcher } = React.useContext(ConstructorContext);
+const BurgerIngredients = () => {
+  const dispatch = useDispatch();
 
-  const [current, setCurrent] = React.useState(bunType);
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [currentIngredient, setCurrentIngredient] = React.useState(null);
+    const { ingredients }  = useSelector(getIngredientsState)
+    const { modalType } = useSelector(getModalState)
+
+    const [ scrollPosition, setScrollPosition ] = React.useState(0);
+
+    React.useEffect(() => {
+        dispatch(loadIngredients());
+    }, [])
+
+    const bunTab = "buns";
+    const mainTab = "main";
+    const sauceTab = "sauce";
+
+    const [activeTab, setActiveTab] = React.useState(bunTab);
+
+    React.useEffect(() => {
+        const scrollWrapper = document.querySelector(".custom-scroll");
+        scrollWrapper.addEventListener("scroll", handleScroll, { passive: true });
+    
+        return () => {
+            scrollWrapper.removeEventListener("scroll", handleScroll);
+        };
+    }, [scrollPosition]);
+    
+    const handleScroll = () => {
+        // Создание объекта типа "вкладка": "расстояние до верха"
+        const tabsDistance = {
+            [bunTab]: getDistance(`.${bunTab}`),
+            [sauceTab]: getDistance(`.${sauceTab}`),
+            [mainTab]: getDistance(`.${mainTab}`),
+        }
+
+        // Сортировка
+        const sortedTabs = Object.keys(tabsDistance).sort((a, b) => {
+            return tabsDistance[a] - tabsDistance[b]
+        }) 
+        setActiveTab(sortedTabs[0])
+    };
+
+    const getDistance = (className) => {
+        // Модуль расстояния от блока до вкладок
+        return Math.abs(document.querySelector(className).getBoundingClientRect().top - 281);
+    }
+
+
 
   const modalTitle = 'Детали ингредиента';
-
-
-  const filteredBunIngridient = useMemo(() => ingredients.filter(element => element.type === bunType),[ingredients, bunType]);
-  const filteredSauseIngridient = useMemo(() => ingredients.filter(element => element.type === sauceType), [ingredients, sauceType]);
-  const filteredfillingIngridient = useMemo(() => ingredients.filter(element => element.type === fillingType), [ingredients, fillingType]);
-
-  const handleOpenModalIngredient = (item) => {
-    setModalOpen(true);
-    setCurrentIngredient(item);
-    constructorDispatcher({
-      type: "add",
-      ingredient: item
-  });
-    
-  };
-
-  const handleCloseModalIngredient = () => {
-    setModalOpen(false);
-    setCurrentIngredient(null);
-  };
-
-  const setTab = (tab) => {
-    setCurrent(tab);
-
-    const element = document.getElementById(tab);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <section className={ingredient.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <div style={{ display: "flex" }} className="mb-10">
-        <Tab value={bunType} active={current === {bunType}} onClick={()=> {setTab(bunType)}}>
+      <div className={`${ingredient.nav} mb-10`}>
+        <Tab value='one' active={activeTab === bunTab} onClick={setActiveTab}>
           Булки
         </Tab>
-        <Tab value={sauceType} active={current === {sauceType}} onClick={()=> {setTab(sauceType)}}>
+        <Tab value='two' active={activeTab === sauceTab} onClick={setActiveTab}>
           Соусы
         </Tab>
-        <Tab value={fillingType} active={current === {fillingType}} onClick={()=> {setTab(fillingType)}}>
+        <Tab value='three' active={activeTab === mainTab} onClick={setActiveTab}>
           Начинки
         </Tab>
       </div>
       <div className={`${ingredient.scroll} custom-scroll`}>
-        <div className={ingredient.point} id={bunType}>
+        <div className={`ingredient.point ${bunTab}`}>
           <h2 className="text text_type_main-medium">Булки</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
-            {filteredBunIngridient.map(item => (
-              <li key={item._id} className={`${ingredient.item} mt-6 mb-2`}>
-                <BurgerIngredientItem ingredient={item} openIngredient={handleOpenModalIngredient}/>
-              </li>
-            ))}
+            {
+              ingredients.filter(ingredient => ingredient.type === "bun").map((ingredient) => (
+                <li key={ingredient._id} className={`${ingredient.item} mt-6 mb-2`}>
+                  <BurgerIngredientItem ingredient={ingredient} openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}/>
+                </li>
+              ))
+            }
           </ul>
         </div>
-        <div className={ingredient.point} id={sauceType}>
+        <div className={`ingredient.point ${sauceTab}`}>
           <h2 className="text text_type_main-medium">Соусы</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
-            {filteredSauseIngridient.map(item => (
-              <li key={item._id} className={`${ingredient.item} mt-6 mb-2`}>
-                <BurgerIngredientItem ingredient={item} openIngredient={handleOpenModalIngredient}/>
-              </li>
-            ))}
+            {
+              ingredients.filter(ingredient => ingredient.type === "sauce").map((ingredient) => (
+                <li key={ingredient._id} className={`${ingredient.item} mt-6 mb-2`}>
+                  <BurgerIngredientItem ingredient={ingredient} openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}/>
+                </li>
+              ))
+            }
           </ul>
         </div>
-        <div className={ingredient.point} id={fillingType}>
+        <div className={`ingredient.point ${mainTab}`}>
           <h2 className="text text_type_main-medium">Начинки</h2>
           <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
-            {filteredfillingIngridient.map(item => (
-              <li key={item._id} className={`${ingredient.item} mt-6 mb-2`}>
-                <BurgerIngredientItem ingredient={item} openIngredient={handleOpenModalIngredient}/>
-              </li>
-            ))}
+            {
+              ingredients.filter(ingredient => ingredient.type === "main").map((ingredient) => (
+                <li key={ingredient._id} className={`${ingredient.item} mt-6 mb-2`}>
+                  <BurgerIngredientItem ingredient={ingredient} openIngredientDetails={() => dispatch(openIngredientModal(ingredient))}/>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>
-      {modalOpen && (
-        <Modal closeModal={handleCloseModalIngredient} title={modalTitle}>
-          <IngredientDetails ingredientInfo={currentIngredient}/>
+      {modalType === INGREDIENT_MODAL && (
+        <Modal title={modalTitle}>
+          <IngredientDetails/>
         </Modal>
       )}
       
@@ -102,8 +124,4 @@ const BurgerIngredients = ({ingredients}) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
-}
-
-export default React.memo(BurgerIngredients);
+export default BurgerIngredients;

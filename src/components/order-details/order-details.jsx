@@ -1,21 +1,22 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order-details.module.css";
-import PropTypes from "prop-types";
-import React from "react";
+import { useSelector } from "react-redux";
+import { getOrderState } from "../../services/reducers/order-details";
 
-const OrderDetails = ({orderNumber}) => {
+const OrderDetails = () => {
+  const { order } = useSelector(getOrderState)
+
   const orderInfo = {
-    number: orderNumber,
     textId: "идентификатор заказа",
     orderStatus: "Ваш заказ начали готовить",
     orderDescription: "Дождитесь готовности на орбитальной станции",
   };
 
   return (
-    <ul className={style.container}>
+      <ul className={style.container}>
       <li className="mt-10">
         <p className={`${style.number} text text_type_digits-large`}>
-          {orderInfo.number}
+          {order.number}
         </p>
         <p className={`${style.text_id} text text_type_main-medium mt-8`}>
           {orderInfo.textId}
@@ -40,8 +41,4 @@ const OrderDetails = ({orderNumber}) => {
   )
 }
 
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number,
-};
-
-export default React.memo(OrderDetails);
+export default OrderDetails;
