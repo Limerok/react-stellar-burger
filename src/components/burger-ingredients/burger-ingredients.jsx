@@ -58,10 +58,6 @@ const BurgerIngredients = () => {
         return Math.abs(document.querySelector(className).getBoundingClientRect().top - 281);
     }
 
-
-
-  const modalTitle = 'Детали ингредиента';
-
   return (
     <section className={ingredient.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -113,13 +109,7 @@ const BurgerIngredients = () => {
             }
           </ul>
         </div>
-      </div>
-      {modalType === INGREDIENT_MODAL && (
-        <Modal title={modalTitle}>
-          <IngredientDetails/>
-        </Modal>
-      )}
-      
+      </div>      
     </section>
   );
 };

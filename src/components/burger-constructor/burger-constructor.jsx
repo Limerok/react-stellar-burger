@@ -115,7 +115,7 @@ const BurgerConstructor = () => {
         </Button>) }
       </div>
       {modalType === ORDER_MODAL && (
-        <Modal>
+        <Modal onClose={()=>{}}>
           {orderRequest ? <p className={burgerConstructor.load}>Оформление заказа...</p> :(
             <OrderDetails />
           )}

@@ -29,3 +29,14 @@
   justify-content: center;
   align-items: center;
 }
+
+.modal {
+  width: 720px;
+  margin: 1% auto;
+}
+
+.main {
+  width: 720px;
+  margin: 10vh auto;
+  text-align: center;
+}
