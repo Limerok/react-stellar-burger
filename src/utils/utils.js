@@ -4,3 +4,7 @@ export const checkReponse = (res) => {
   }
   return Promise.reject(`Ошибка ${res.status}`);
 };
+
+export const chekUrl = (location, url, valueOne, valueTwo) => {
+  return location === url ? valueOne : valueTwo
+}

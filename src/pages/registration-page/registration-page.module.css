@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 182px;
+}
+
+.subtitle {
+  display: flex;
+  margin-top: 82px;
+  gap: 12px;
+}
