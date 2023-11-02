@@ -3,7 +3,7 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styleItem from "./burger-ingredient-item.module.css";
+import styles from "./burger-ingredient-item.module.css";
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { ingredientPropType } from "../../utils/prop-types";
@@ -49,11 +49,11 @@ const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
       key={ingredientId}
       to={`/ingredients/${ingredientId}`}
       state={{ background: location }}
-      className={`text text_type_main-default ${styleItem.link}`}
+      className={`text text_type_main-default ${styles.link}`}
     >
       <div
         ref={dragRef}
-        className={styleItem.container}
+        className={styles.container}
         onClick={clickIngredient}
       >
         {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
@@ -62,11 +62,11 @@ const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
           src={ingredient.image}
           alt={ingredient.name}
         />
-        <div className={styleItem.price}>
+        <div className={styles.price}>
           <p className="text text_type_digits-default">{ingredient.price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <p className={`text text_type_main-default ${styleItem.center}`}>
+        <p className={`text text_type_main-default ${styles.center}`}>
           {ingredient.name}
         </p>
       </div>

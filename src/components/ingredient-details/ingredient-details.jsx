@@ -1,4 +1,4 @@
-import style from "./ingredient-details.module.css";
+import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import { getModalState } from "../../services/reducers/modal";
@@ -34,29 +34,29 @@ const IngredientDetails= () => {
 }, [location])
 
   return (
-    <div className={background ? style.modal: style.main}>
-      <h2 className={`${style.title} ${background ? 'pl-10': ''}  text text_type_main-large`}>
+    <div className={background ? styles.modal: styles.main}>
+      <h2 className={`${styles.title} ${background ? 'pl-10': ''}  text text_type_main-large`}>
         Детали ингредиента
       </h2>
-      <div className={`${style.info} pb-15`}>
-        <img className={style.image} src={ingredient.image_large} alt="" />
-        <p className={`${style.name} text text_type_main-medium mt-4 mb-8`}>{ingredient.name}</p>
-        <ul className={`${style.nutrition}`}>
-          <li className={`${style.item}`}>
-            <p className={`${style.nutrition__point} text text_type_main-default`}>{text.calories}</p>
-            <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.calories}</p>
+      <div className={`${styles.info} pb-15`}>
+        <img className={styles.image} src={ingredient.image_large} alt="" />
+        <p className={`${styles.name} text text_type_main-medium mt-4 mb-8`}>{ingredient.name}</p>
+        <ul className={`${styles.nutrition}`}>
+          <li className={`${styles.item}`}>
+            <p className={`${styles.nutrition__point} text text_type_main-default`}>{text.calories}</p>
+            <p className={`${styles.nutrition__value} text text_type_digits-default`}>{ingredient.calories}</p>
           </li>
-          <li className={`${style.item}`}>
-            <p className={`${style.nutrition__point} text text_type_main-default`}>{text.proteins}</p>
-            <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.proteins}</p>
+          <li className={`${styles.item}`}>
+            <p className={`${styles.nutrition__point} text text_type_main-default`}>{text.proteins}</p>
+            <p className={`${styles.nutrition__value} text text_type_digits-default`}>{ingredient.proteins}</p>
           </li>
-          <li className={`${style.item}`}>
-            <p className={`${style.nutrition__point} text text_type_main-default`}>{text.fat}</p>
-            <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.fat}</p>
+          <li className={`${styles.item}`}>
+            <p className={`${styles.nutrition__point} text text_type_main-default`}>{text.fat}</p>
+            <p className={`${styles.nutrition__value} text text_type_digits-default`}>{ingredient.fat}</p>
           </li>
-          <li className={`${style.item}`}>
-            <p className={`${style.nutrition__point} text text_type_main-default`}>{text.carbohydrates}</p>
-            <p className={`${style.nutrition__value} text text_type_digits-default`}>{ingredient.carbohydrates}</p>
+          <li className={`${styles.item}`}>
+            <p className={`${styles.nutrition__point} text text_type_main-default`}>{text.carbohydrates}</p>
+            <p className={`${styles.nutrition__value} text text_type_digits-default`}>{ingredient.carbohydrates}</p>
           </li>
         </ul>
       </div>

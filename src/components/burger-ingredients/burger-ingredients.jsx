@@ -1,6 +1,6 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import ingredient from "./burger-ingredients.module.css";
+import styles from "./burger-ingredients.module.css";
 import BurgerIngredientItem from "../burger-ingredient-item/burger-ingredient-item";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -59,9 +59,9 @@ const BurgerIngredients = () => {
     }
 
   return (
-    <section className={ingredient.section}>
+    <section className={styles.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <div className={`${ingredient.nav} mb-10`}>
+      <div className={`${styles.nav} mb-10`}>
         <Tab value='one' active={activeTab === bunTab} onClick={setActiveTab}>
           Булки
         </Tab>
@@ -72,10 +72,10 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
-      <div className={`${ingredient.scroll} custom-scroll`}>
+      <div className={`${styles.scroll} custom-scroll`}>
         <div className={`ingredient.point ${bunTab}`}>
           <h2 className="text text_type_main-medium">Булки</h2>
-          <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
+          <ul className={`${styles.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {
               ingredients.filter(ingredient => ingredient.type === "bun").map((ingredient) => (
                 <li key={ingredient._id} className={`${ingredient.item} mt-6 mb-2`}>
@@ -87,7 +87,7 @@ const BurgerIngredients = () => {
         </div>
         <div className={`ingredient.point ${sauceTab}`}>
           <h2 className="text text_type_main-medium">Соусы</h2>
-          <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
+          <ul className={`${styles.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {
               ingredients.filter(ingredient => ingredient.type === "sauce").map((ingredient) => (
                 <li key={ingredient._id} className={`${ingredient.item} mt-6 mb-2`}>
@@ -99,7 +99,7 @@ const BurgerIngredients = () => {
         </div>
         <div className={`ingredient.point ${mainTab}`}>
           <h2 className="text text_type_main-medium">Начинки</h2>
-          <ul className={`${ingredient.ingredient} mb-2 ml-4 mr-2 mt-0`}>
+          <ul className={`${styles.ingredient} mb-2 ml-4 mr-2 mt-0`}>
             {
               ingredients.filter(ingredient => ingredient.type === "main").map((ingredient) => (
                 <li key={ingredient._id} className={`${ingredient.item} mt-6 mb-2`}>

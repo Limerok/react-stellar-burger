@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import style from "./modal.module.css"
+import styles from "./modal.module.css"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -34,10 +34,10 @@ const Modal = ({children, onClose}) => {
   return ReactDOM.createPortal(
     (
       <>
-        <div className={`${style.container} pt-10`}>
+        <div className={`${styles.container} pt-10`}>
           <button
               onClick={() => closePopup()}
-              className={style.close}
+              className={styles.close}
               aria-label="Закрытие модального окна"
             >
             <CloseIcon/>

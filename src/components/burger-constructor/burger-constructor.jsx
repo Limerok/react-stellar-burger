@@ -3,7 +3,7 @@ import {
   ConstructorElement,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructor from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,11 +65,11 @@ const BurgerConstructor = () => {
 
   return (
     <div ref={dropTarget}>
-      <ul className={`ml-4 mr-4 mt-25 ${burgerConstructor.main}`}>
+      <ul className={`ml-4 mr-4 mt-25 ${styles.main}`}>
         {bun && (
-          <li className={burgerConstructor.li}>
+          <li className={styles.li}>
             <ConstructorElement
-              extraClass={`mb-4 mr-8 ml-8 ml-6 ${burgerConstructor.element}`}
+              extraClass={`mb-4 mr-8 ml-8 ml-6 ${styles.element}`}
               text={`${bun.name} (верх)`}
               type="top"
               isLocked={true}
@@ -78,7 +78,7 @@ const BurgerConstructor = () => {
             />
           </li>
         )}
-        <div className={`custom-scroll ${burgerConstructor.wrapper}`}>
+        <div className={`custom-scroll ${styles.wrapper}`}>
           {ingredients.map((ingredient, index) => (
             <ConstructorIngredient
               key={ingredient.uniqueId}
@@ -89,9 +89,9 @@ const BurgerConstructor = () => {
           ))}
         </div>
         {bun && (
-          <li className={burgerConstructor.li}>
+          <li className={styles.li}>
             <ConstructorElement
-              extraClass={`mt-4 mr-8 ml-8 mb-10 ${burgerConstructor.element}`}
+              extraClass={`mt-4 mr-8 ml-8 mb-10 ${styles.element}`}
               text={`${bun.name} (низ)`}
               type="bottom"
               isLocked={true}
@@ -101,8 +101,8 @@ const BurgerConstructor = () => {
           </li>
         )}
       </ul>
-      <div className={burgerConstructor.sum}>
-        <div className={`mr-10 ${burgerConstructor.price}`}>
+      <div className={styles.sum}>
+        <div className={`mr-10 ${styles.price}`}>
           <p className="text text_type_digits-medium mr-4">{price}</p>
           <CurrencyIcon />
         </div>
@@ -116,7 +116,7 @@ const BurgerConstructor = () => {
       </div>
       {modalType === ORDER_MODAL && (
         <Modal onClose={()=>{}}>
-          {orderRequest ? <p className={burgerConstructor.load}>Оформление заказа...</p> :(
+          {orderRequest ? <p className={styles.load}>Оформление заказа...</p> :(
             <OrderDetails />
           )}
         </Modal>
