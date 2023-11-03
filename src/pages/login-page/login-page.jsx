@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { signInUser } from "../../services/actions/auth";
+import { login } from "../../services/actions/user";
 
 
 export const LoginPage = () => {
@@ -26,7 +26,7 @@ export const LoginPage = () => {
 
   const signIn = () => {
     if (email && password) {
-      dispatch(signInUser(email, password, () => navigate('/')))
+      dispatch(login(email, password))
     }
   }
 

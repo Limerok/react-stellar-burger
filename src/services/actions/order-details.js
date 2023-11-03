@@ -1,5 +1,6 @@
-import {api} from "../../utils/constant";
-import { checkReponse } from "../../utils/utils";
+
+import { checkReponse } from "../../utils/api";
+import { apiUrl } from "../../utils/constant";
 import { resetConstructor } from "./burger-constructor";
 import { openOrderModal } from "./modal";
 
@@ -33,7 +34,7 @@ export function getOrder(ingredientsId) {
             },
             body: JSON.stringify({ "ingredients": ingredientsId })
         };
-        fetch(`${api}/orders`, settings)
+        fetch(`${apiUrl}/orders`, settings)
         .then(res => checkReponse(res))
         .then(res => {
             if(res && res.success) {

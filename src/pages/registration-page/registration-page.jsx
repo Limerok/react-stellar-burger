@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { registration } from "../../services/actions/register";
+import { registerUser } from "../../services/actions/user";
 
 export const RegistrationPage = () => {
   const dispatch = useDispatch();
@@ -30,10 +30,7 @@ export const RegistrationPage = () => {
   }
 
   const register = () => {
-    if (email && name && password) {
-        dispatch(registration(name, email, password))
-        console.log(name, email, password)
-    }
+    dispatch(registerUser(email, password, name))
   }
 
   return (

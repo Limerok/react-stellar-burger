@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { RoutePathname } from '../../utils/constant'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import { forgotPassword } from '../../services/actions/forgot-password'
+import { forgotPassword } from '../../utils/api'
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
@@ -18,8 +18,11 @@ export const ForgotPasswordPage = () => {
 
   const forgot = () => {
     if (email) {
-      dispatch(forgotPassword(email, () => navigate('/reset-password')));
-      //временное решение для просмотра работы странички reset-pass
+      forgotPassword(email, () => navigate('/reset-password'))
+      .then(res => {
+        console.log("Forgot Password ", res)
+        navigate('/reset-password')
+      })
     }
   }
 

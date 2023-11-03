@@ -32,7 +32,7 @@ const AppHeader = () => {
             <Logo/>
           </li>
           <li className="pt-4 pb-4 pl-5 pr-5">
-            <Link to={RoutePathname.loginPage} className={styles.link}>
+            <Link to={RoutePathname.profilePage} className={styles.link}>
               <ProfileIcon type={chekUrl(pageUrl,RoutePathname.loginPage, 'primary', 'secondary')} />
               <p className={`text text_type_main-default ml-2 ${chekUrl(pageUrl, RoutePathname.loginPage, '', 'text_color_inactive')}`}>
                 Личный кабинет

@@ -3,12 +3,12 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from './resett-password-page.module.css'
+import styles from "./resett-password-page.module.css";
 import { Link } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { resetPassword } from "../../services/actions/reset-password";
+import { resetPassword } from "../../utils/api";
 
 export const ResettPasswordPage = () => {
   const dispatch = useDispatch();
@@ -17,17 +17,18 @@ export const ResettPasswordPage = () => {
 
   const onChangePassword = (e) => {
     setPassword(e.target.value);
-  }
+  };
 
   const onChangeToken = (e) => {
     setToken(e.target.value);
-  }
+  };
 
   const reset = () => {
-    if (password && token) {
-      dispatch(resetPassword(password))
-    }
-  }
+    resetPassword(password, token).then((res) => {
+      console.log("Reset", res);
+      // ???
+    });
+  };
 
   return (
     <form className={styles.main}>
@@ -47,7 +48,13 @@ export const ResettPasswordPage = () => {
         value={token}
       />
 
-      <Button htmlType="button" type="primary" size="medium" extraClass="mt-6" onClick={reset}>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="medium"
+        extraClass="mt-6"
+        onClick={reset}
+      >
         Сохранить
       </Button>
 
