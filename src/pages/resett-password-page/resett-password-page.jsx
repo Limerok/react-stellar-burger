@@ -37,12 +37,14 @@ export const ResettPasswordPage = () => {
         extraClass="mt-5"
         placeholder="Введите новый пароль"
         onChange={onChangePassword}
+        value={password}
       />
       <Input
         name="token"
         extraClass="mt-6"
         placeholder="Введите код из письма"
         onChange={onChangeToken}
+        value={token}
       />
 
       <Button htmlType="button" type="primary" size="medium" extraClass="mt-6" onClick={reset}>

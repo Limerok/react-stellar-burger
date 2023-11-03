@@ -18,9 +18,8 @@ export const ForgotPasswordPage = () => {
 
   const forgot = () => {
     if (email) {
-      dispatch(forgotPassword(email));
+      dispatch(forgotPassword(email, () => navigate('/reset-password')));
       //временное решение для просмотра работы странички reset-pass
-      navigate('/reset-password'); 
     }
   }
 

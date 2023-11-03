@@ -4,20 +4,43 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login-page.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { signInUser } from "../../services/actions/auth";
+
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  }
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
+  }
+
+  const signIn = () => {
+    if (email && password) {
+      dispatch(signInUser(email, password, () => navigate('/')))
+    }
+  }
+
   return (
     <form className={styles.main}>
       <h1 className="text text_type_main-medium">Вход</h1>
-      <EmailInput extraClass="mt-6" />
-      <PasswordInput name={"password"} extraClass="mt-6" />
+      <EmailInput extraClass="mt-6" value={email} onChange={onChangeEmail}/>
+      <PasswordInput name={"password"} extraClass="mt-6" value={password} onChange={onChangePassword}/>
       <Button
         htmlType="button"
         type="primary"
         size="medium"
         extraClass="mt-6 mb-20"
+        onClick={signIn}
       >
         Войти
       </Button>
