@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from "./modal.module.css"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../services/actions/modal";
+import { ModalOverlay } from "../modal-overlay/modal-overlay";
 
 const modalRoot = document.getElementById("modals");
 
-const Modal = ({children, onClose}) => {
+export const Modal = ({children, onClose}) => {
   const dispatch = useDispatch();
 
   function closePopup() {
@@ -57,5 +57,3 @@ Modal.propTypes = {
   children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired
 };
-
-export default React.memo(Modal);

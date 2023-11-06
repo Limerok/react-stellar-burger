@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
 import { chekUrl } from "../../utils/utils";
 
-const AppHeader = () => {
+export const AppHeader = () => {
   const location = useLocation();
   const pageUrl = location.pathname; //Адрес текущей страницы
 

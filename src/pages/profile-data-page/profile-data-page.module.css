@@ -1,5 +1,10 @@
-.group_button {
+.buttons {
+  visibility: hidden;
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: end;
+}
+
+.buttons_active {
+  display: flex;
+  justify-content: end;
 }

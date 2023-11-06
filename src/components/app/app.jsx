@@ -10,12 +10,12 @@ import { ProfilePage } from "../../pages/profile-page/profile-page";
 import { ProfileDataPage } from "../../pages/profile-data-page/profile-data-page";
 import { RoutePathname } from "../../utils/constant";
 import { NotFound404 } from "../../pages/not-found404/not-found404";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkUserAuth } from "../../services/actions/user";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import { Modal } from "../modal/modal";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -35,10 +35,7 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       <Routes location={background || location}>
-
-
-        
-        <Route exact path={RoutePathname.homePage} element={<OnlyAuth component={<HomePage />} />} />
+        <Route exact path={RoutePathname.homePage} element={<HomePage />} />
         <Route path={RoutePathname.ingredientDetailsPage} element={<IngredientDetails />} />
 
         <Route path={RoutePathname.loginPage} element={<OnlyUnAuth component={<LoginPage />}/>} />
@@ -47,11 +44,12 @@ const App = () => {
         <Route path={RoutePathname.resetPassPage} element={<OnlyUnAuth component={<ResettPasswordPage />} />}/>
 
         <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfilePage />} />}>
-          <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfilePage />} />}/>
+          <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfileDataPage />} />}/>
         </Route>
-
         <Route path={RoutePathname.notFound404Page} element={<NotFound404/>}/>
       </Routes>
+
+
 
       {background && (
         <Routes>

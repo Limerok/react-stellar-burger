@@ -1,37 +1,41 @@
-import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './forgot-password-page.module.css'
-import { Link, useNavigate } from 'react-router-dom'
-import { RoutePathname } from '../../utils/constant'
-import { useDispatch } from 'react-redux'
-import { useState } from 'react'
-import { forgotPassword } from '../../utils/api'
+import {
+  Button,
+  EmailInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./forgot-password-page.module.css";
+import { Link, useNavigate } from "react-router-dom";
+import { RoutePathname } from "../../utils/constant";
+import { useState } from "react";
+import { forgotPassword } from "../../utils/api";
 
 export const ForgotPasswordPage = () => {
-  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState();
-
-  const onChangeEmail = (e) => {
+  const onChange = (e) => {
     setEmail(e.target.value);
-  }
+  };
 
-  const forgot = () => {
+  const forgot = (e) => {
+    e.preventDefault();
     if (email) {
-      forgotPassword(email, () => navigate('/reset-password'))
-      .then(res => {
-        console.log("Forgot Password ", res)
-        navigate('/reset-password')
-      })
+      forgotPassword(email).then((res) => {
+        localStorage.setItem("forgot-password", true);
+        navigate(RoutePathname.resetPassPage);
+      });
     }
-  }
-
+  };
 
   return (
-    <form className={styles.main}>
+    <form className={styles.main} onSubmit={forgot}>
       <h1 className="text text_type_main-medium mb-5">Восстановление пароля</h1>
-      <EmailInput extraClass="mt-1" placeholder="Укажите e-mail" value={email} onChange={onChangeEmail}/>
-      <Button htmlType="button" type="primary" size="medium" extraClass="mt-6" onClick={forgot}>
+      <EmailInput
+        extraClass="mt-1"
+        placeholder="Укажите e-mail"
+        value={email}
+        onChange={onChange}
+      />
+      <Button htmlType="submit" type="primary" size="medium" extraClass="mt-6">
         Восстановить
       </Button>
       <div className={`${styles.subtitle} mt-20`}>
@@ -50,5 +54,5 @@ export const ForgotPasswordPage = () => {
         </Link>
       </div>
     </form>
-  )
-}
+  );
+};

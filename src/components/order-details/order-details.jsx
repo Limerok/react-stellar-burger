@@ -3,7 +3,7 @@ import styles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 import { getOrderState } from "../../services/reducers/order-details";
 
-const OrderDetails = () => {
+export const OrderDetails = () => {
   const { order } = useSelector(getOrderState)
 
   const orderInfo = {
@@ -40,5 +40,3 @@ const OrderDetails = () => {
     </ul>
   )
 }
-
-export default OrderDetails;

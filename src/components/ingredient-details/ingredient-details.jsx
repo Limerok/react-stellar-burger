@@ -12,7 +12,7 @@ const text = {
   carbohydrates: "Углеводы, г",
 };
 
-const IngredientDetails= () => {
+export const IngredientDetails= () => {
   const { modalProps } = useSelector(getModalState);
   const location = useLocation();
   let background = location.state && location.state.background;
@@ -63,6 +63,3 @@ const IngredientDetails= () => {
     </div>
   )
 }
-
-
-export default IngredientDetails;

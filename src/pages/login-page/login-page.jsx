@@ -4,43 +4,48 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login-page.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { RoutePathname } from "../../utils/constant";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
 import { login } from "../../services/actions/user";
+import { RoutePathname } from "../../utils/constant";
+
 
 
 export const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  
+  const { values, handleChange } = useForm({
+    email: "",
+    password: "",
+});
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
+const signIn = (e) => {
+  e.preventDefault()
+  if(values.email && values.password) {
+      dispatch(
+          login(values.email, values.password)
+      )
+      .then(() => {
+          navigate(RoutePathname.homePage)
+      })
+      .catch(err => {
+          console.log(`Error: ${err}`)
+      })
   }
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  }
-
-  const signIn = () => {
-    if (email && password) {
-      dispatch(login(email, password))
-    }
-  }
+}
 
   return (
-    <form className={styles.main}>
+    <form className={styles.main} onSubmit={signIn}> 
       <h1 className="text text_type_main-medium">Вход</h1>
-      <EmailInput extraClass="mt-6" value={email} onChange={onChangeEmail}/>
-      <PasswordInput name={"password"} extraClass="mt-6" value={password} onChange={onChangePassword}/>
+      <EmailInput name="email" extraClass="mt-6" value={values.email} onChange={handleChange}/>
+      <PasswordInput name={"password"} extraClass="mt-6" value={values.password} onChange={handleChange}/>
       <Button
-        htmlType="button"
+        htmlType="submit"
         type="primary"
         size="medium"
         extraClass="mt-6 mb-20"
-        onClick={signIn}
       >
         Войти
       </Button>

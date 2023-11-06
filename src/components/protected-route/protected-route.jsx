@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
+import { RoutePathname } from "../../utils/constant";
+
 
 const Protected = ({ onlyUnAuth = false, component }) => {
   const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
@@ -11,13 +13,12 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   }
 
   if (onlyUnAuth && user) {
-    console.log(user)
-    const { from } = location.state || { from: { pathname: "/" } };
+    const { from } = location.state || { from: { pathname: RoutePathname.homePage } };
     return <Navigate to={from} />;
   }
 
   if (!onlyUnAuth && !user) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to={RoutePathname.loginPage} state={{ from: location }} />;
   }
 
   return component;

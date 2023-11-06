@@ -4,28 +4,13 @@ import { chekUrl } from "../../utils/utils";
 import { RoutePathname } from "../../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { logout } from "../../services/actions/user";
 
 export const ProfilePage = () => {
   const location = useLocation();
   const pageUrl = location.pathname; //Адрес текущей страницы
 
   const dispatch = useDispatch();
-
-  const { user } = useSelector((store) => store.user.user);
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
 
   return (
     <div className={`${styles.main}`}>
@@ -54,6 +39,7 @@ export const ProfilePage = () => {
             История заказов
           </Link>
           <a
+            onClick={() => dispatch(logout())}
             className={`text text_type_main-medium text_color_inactive pt-4 pb-4 ${styles.link}`}
           >
             Выход

@@ -1,4 +1,5 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import styles from "./profile-data-page.module.css";
 import { useState } from "react";
 import {
@@ -7,33 +8,41 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { getUser, uptadeUserData } from "../../services/actions/user";
+import { useForm } from "../../hooks/useForm";
+import { getUserState } from "../../services/reducers/user";
 
 export const ProfileDataPage = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
-    console.log(name)
-  };
+  const { user } = useSelector(getUserState);
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-    console.log(email)
-  };
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-    console.log(password)
-  };
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
+  
+  const setDefault = () => {
+    setValues({
+        name: user.name,
+        email: user.email,
+        password: '',
+    })
+  }
 
-  const replaseData = (e) => {
-    e.preventDefault();
-    //Временно
-    console.log(name, email, password);
-  };
+  const submitData = (e) => {
+    e.preventDefault()
+    dispatch(uptadeUserData(values.password, values.name, values.email))
+  }
+
+  useEffect(() => {
+    dispatch(getUser())
+    if (user) {
+        setDefault();
+    }
+  }, [])
 
   return (
     <form className={styles.inputs}>
@@ -43,34 +52,36 @@ export const ProfileDataPage = () => {
         placeholder={"Имя"}
         icon={"EditIcon"}
         default={true}
-        value={name}
-        onChange={onChangeName}
+        value={values.name}
+        onChange={handleChange}
       />
       <EmailInput
         name="email"
         placeholder={"Логин"}
         extraClass="mt-6 mb-6"
         icon={"EditIcon"}
-        value={email}
-        onChange={onChangeEmail}
+        value={values.email}
+        onChange={handleChange}
       />
       <PasswordInput
         name="password"
         extraClass="mb-6"
         icon={"EditIcon"}
-        value={password}
-        onChange={onChangePassword}
+        value={values.password}
+        onChange={handleChange}
       />
-      <div className={styles.group_button}>
+      <div className={values.password.length !== 0 || 
+                        user.name !== values.name || 
+                        user.email !== values.email ? styles.buttons_active: styles.buttons }>
         <Button
           htmlType="button"
           type="secondary"
           size="medium"
-          onClick={replaseData}
+          onClick={setDefault}
         >
           Отмена
         </Button>
-        <Button htmlType="submit" type="primary" size="medium" onClick={replaseData}>
+        <Button htmlType="submit" type="primary" size="medium">
           Сохранить
         </Button>
       </div>

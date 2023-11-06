@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { getConstructorState } from "../../services/reducers/burger-constructor";
 import { Link, useLocation } from "react-router-dom";
 
-const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
+export const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
   const location = useLocation();
   const ingredientId = ingredient._id;
 
@@ -78,5 +78,3 @@ BurgerIngredientItem.propTypes = {
   ingredient: ingredientPropType.isRequired,
   openIngredientDetails: PropTypes.func.isRequired,
 };
-
-export default BurgerIngredientItem;

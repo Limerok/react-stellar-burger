@@ -4,56 +4,52 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./resett-password-page.module.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { resetPassword } from "../../utils/api";
+import { useForm } from "../../hooks/useForm";
 
 export const ResettPasswordPage = () => {
-  const dispatch = useDispatch();
-  const [password, setPassword] = useState();
-  const [token, setToken] = useState();
+  const { values, handleChange } = useForm({
+    token: "",
+    password: "",
+  });
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const navigate = useNavigate();
 
-  const onChangeToken = (e) => {
-    setToken(e.target.value);
-  };
-
-  const reset = () => {
-    resetPassword(password, token).then((res) => {
-      console.log("Reset", res);
-      // ???
+  const reset = (e) => {
+    e.preventDefault();
+    resetPassword(values.password, values.token).then(() => {
+      localStorage.removeItem("forgot-password");
+      navigate(RoutePathname.loginPage);
     });
   };
 
-  return (
-    <form className={styles.main}>
+  return !localStorage.getItem("forgot-password") ? (
+    <Navigate to={RoutePathname.homePage} />
+  ) : (
+    <form className={styles.main} onSubmit={reset}>
       <h1 className="text text_type_main-medium">Восстановление пароля</h1>
       <PasswordInput
         name="password"
         extraClass="mt-5"
         placeholder="Введите новый пароль"
-        onChange={onChangePassword}
-        value={password}
+        onChange={handleChange}
+        value={values.password}
       />
       <Input
         name="token"
         extraClass="mt-6"
         placeholder="Введите код из письма"
-        onChange={onChangeToken}
-        value={token}
+        onChange={handleChange}
+        value={values.token} 
       />
 
       <Button
-        htmlType="button"
+        htmlType="submit"
         type="primary"
         size="medium"
         extraClass="mt-6"
-        onClick={reset}
       >
         Сохранить
       </Button>
