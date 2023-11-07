@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { checkUserAuth } from "../../services/actions/user";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { Modal } from "../modal/modal";
+import { ProfileOrdersPage } from "../../pages/profile-orders-page/profile-orders-page";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const App = () => {
 
         <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfilePage />} />}>
           <Route path={RoutePathname.profilePage} element={<OnlyAuth component={<ProfileDataPage />} />}/>
+          <Route path={RoutePathname.ordersPage} element={<OnlyAuth component={<ProfileOrdersPage />} />}/>
         </Route>
         <Route path={RoutePathname.notFound404Page} element={<NotFound404/>}/>
       </Routes>

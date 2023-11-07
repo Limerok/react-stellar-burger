@@ -1,14 +1,10 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet,} from "react-router-dom";
 import styles from "./profile-page.module.css";
-import { chekUrl } from "../../utils/utils";
-import { RoutePathname } from "../../utils/constant";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch} from "react-redux";
 import { logout } from "../../services/actions/user";
+import { RoutePathname } from "../../utils/constant";
 
 export const ProfilePage = () => {
-  const location = useLocation();
-  const pageUrl = location.pathname; //Адрес текущей страницы
 
   const dispatch = useDispatch();
 
@@ -16,28 +12,24 @@ export const ProfilePage = () => {
     <div className={`${styles.main}`}>
       <div className={`pl-5 mr-15 ${styles.content}`}>
         <nav className={`mb-20 ${styles.navigation}`}>
-          <Link
-            to={"/profile"}
-            className={`text text_type_main-medium text_color_inactive pt-4 pb-4 ${chekUrl(
-              pageUrl,
-              RoutePathname.profilePage,
-              styles.link_active,
-              styles.link
-            )}`}
+          <NavLink
+            to={RoutePathname.profilePage} end
+            className={({ isActive }) => [
+              isActive ? styles.link_active : styles.link , 
+              "text text_type_main-medium text_color_inactive pt-4 pb-4",
+            ].join(" ")}
           >
             Профиль
-          </Link>
-          <Link
-            to={"/profile/orders"}
-            className={`text text_type_main-medium text_color_inactive pt-4 pb-4 ${chekUrl(
-              pageUrl,
-              RoutePathname.ordersPage,
-              styles.link_active,
-              styles.link
-            )}`}
+          </NavLink>
+          <NavLink
+            to={RoutePathname.ordersPage} end
+            className={({ isActive }) => [
+              isActive ? styles.link_active : styles.link , 
+              "text text_type_main-medium text_color_inactive pt-4 pb-4",
+            ].join(" ")}
           >
             История заказов
-          </Link>
+          </NavLink>
           <a
             onClick={() => dispatch(logout())}
             className={`text text_type_main-medium text_color_inactive pt-4 pb-4 ${styles.link}`}

@@ -29,7 +29,7 @@ export const RegistrationPage = () => {
   };
 
   return (
-    <form className={styles.main}>
+    <form className={styles.main} onSubmit={register}>
       <h1 className="text text_type_main-medium mb-5">Регистрация</h1>
       <Input
         name="name"

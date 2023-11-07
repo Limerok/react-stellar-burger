@@ -45,7 +45,7 @@ export const ProfileDataPage = () => {
   }, [])
 
   return (
-    <form className={styles.inputs}>
+    <form className={styles.inputs} onSubmit={submitData}>
       <Input
         name="name"
         type={"text"}
