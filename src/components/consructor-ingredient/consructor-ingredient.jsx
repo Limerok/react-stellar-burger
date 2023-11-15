@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useRef } from 'react';
 import { ItemTypes } from '../../utils/item-types';
 import { useDrag, useDrop } from "react-dnd";
-import constructorIngredient from "./consructor-ingredient.module.css"
+import styles from "./consructor-ingredient.module.css"
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import { deleteIngredient } from "../../services/actions/burger-constructor";
@@ -62,11 +62,11 @@ export const ConstructorIngredient = ({ ingredient, index, moveCard }) => {
       ref={ref}
       style={{ opacity: opacity, cursor: "pointer" }}
       data-handler-id={handlerId}
-      className={`mb-4 ml-4 ${constructorIngredient.li}`} 
+      className={`mb-4 ml-4 ${styles.li}`} 
       >
           <DragIcon />
           <ConstructorElement 
-          extraClass={constructorIngredient.element}
+          extraClass={styles.element}
           text={ingredient.name}
           price={ingredient.price}
           thumbnail={ingredient.image_mobile}

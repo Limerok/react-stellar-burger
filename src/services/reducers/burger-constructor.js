@@ -1,11 +1,7 @@
-import { 
-  ADD_INGREDIENT, 
-  DELETE_INGREDIENT,
-  SWAP_INGREDIENT,
-  RESET_CONSTRUCTOR
-} from "../actions/burger-constructor"
+import { ADD_INGREDIENT, DELETE_INGREDIENT, SWAP_INGREDIENT } from "../actions/burger-constructor";
 
-export const constructorInitialState = {
+
+const constructorInitialState = {
   ingredients: [],
   bun: null
 }
@@ -26,7 +22,7 @@ export const constructorReducer = (state = constructorInitialState, action) => {
                   ingredients: [...state.ingredients, action.ingredient],
               }
           }
-        case DELETE_INGREDIENT:
+      case DELETE_INGREDIENT:
           const arr = state.ingredients
           const index = arr.indexOf(action.ingredient);
           if (index > -1) {
@@ -36,21 +32,13 @@ export const constructorReducer = (state = constructorInitialState, action) => {
               ...state,
               ingredients: [...arr],
           }
-
-        case RESET_CONSTRUCTOR:
+      case SWAP_INGREDIENT:
+          const ingredients = [...state.ingredients];
+          ingredients.splice(action.toIndex, 0, ingredients.splice(action.fromIndex, 1)[0]);
           return {
-            ...state,
-            bun: null,
-            ingredients: []
+              ...state,
+              ingredients: [...ingredients],
           }
-
-        case SWAP_INGREDIENT:
-            const ingredients = [...state.ingredients];
-            ingredients.splice(action.toIndex, 0, ingredients.splice(action.fromIndex, 1)[0]);
-            return {
-                ...state,
-                ingredients: [...ingredients],
-            }
       default:
           return state
   }

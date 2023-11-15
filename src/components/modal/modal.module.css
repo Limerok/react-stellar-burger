@@ -13,22 +13,11 @@
   box-sizing: border-box;
 }
 
-.item__title {
-  display: flex;
-  justify-content: space-between;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.item {
-  display: flex;
-  justify-content: end;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
 .close {
   background: none;
   border: none;
   cursor: pointer;
+  position: absolute;
+  top: 48px;
+  right: 40px;
 }

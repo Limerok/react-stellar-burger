@@ -1,6 +1,4 @@
-export const checkReponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
-};
+export const chekUrl = (location, url, valueOne, valueTwo) => {
+  console.log(location, url)
+  return location === url ? valueOne : valueTwo
+}

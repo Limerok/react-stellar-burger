@@ -1,25 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ModalOverlay from "../modal-overlay/modal-overlay";
-import style from "./modal.module.css"
+import styles from "./modal.module.css"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../services/actions/modal";
+import { ModalOverlay } from "../modal-overlay/modal-overlay";
 
 const modalRoot = document.getElementById("modals");
 
-const Modal = ({ children, title }) => {
+export const Modal = ({children, onClose}) => {
   const dispatch = useDispatch();
 
   function closePopup() {
-    dispatch(closeModal())
+    dispatch(closeModal());
+    onClose();
   }
 
   function handleCloseByEsc(e) {
     if (e.key === "Escape") {
-      closePopup()
+      closePopup();
     }
   }
 
@@ -34,21 +34,14 @@ const Modal = ({ children, title }) => {
   return ReactDOM.createPortal(
     (
       <>
-        <div className={`${style.container} pt-10`}>
-          <div className={title ? `${style.item__title} pt-5`: `${`${style.item} pt-5`}`}>
-            {title && (
-              <h2 className={`${style.title} text text_type_main-large`}>
-                {title}
-              </h2>
-            )}
-            <button
+        <div className={`${styles.container} pt-10`}>
+          <button
               onClick={() => closePopup()}
-              className={style.close}
+              className={styles.close}
               aria-label="Закрытие модального окна"
             >
             <CloseIcon/>
           </button>
-          </div>
           {children}
           
         </div>
@@ -62,7 +55,5 @@ const Modal = ({ children, title }) => {
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
-  title: PropTypes.string
+  onClose: PropTypes.func.isRequired
 };
-
-export default React.memo(Modal);

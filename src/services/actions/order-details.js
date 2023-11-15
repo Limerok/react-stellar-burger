@@ -1,8 +1,6 @@
-import {api} from "../../utils/constant";
-import { checkReponse } from "../../utils/utils";
-import { resetConstructor } from "./burger-constructor";
+import { fetchWithRefresh } from "../../utils/api";
+import { apiUrl } from "../../utils/constant";
 import { openOrderModal } from "./modal";
-
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -24,22 +22,21 @@ const orderSuccess = (order) => ({
 export function getOrder(ingredientsId) {
     return function(dispatch) {
         dispatch(orderRequest());
-        dispatch(openOrderModal());
         const settings = {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                authorization: localStorage.getItem('accessToken')
             },
             body: JSON.stringify({ "ingredients": ingredientsId })
         };
-        fetch(`${api}/orders`, settings)
-        .then(res => checkReponse(res))
+        
+        fetchWithRefresh(`${apiUrl}/orders`, settings)
         .then(res => {
             if(res && res.success) {
                 dispatch(orderSuccess(res.order))
                 dispatch(openOrderModal(res.order))
-                dispatch(resetConstructor())
             } else {
                 dispatch(orderFailed())
             }
