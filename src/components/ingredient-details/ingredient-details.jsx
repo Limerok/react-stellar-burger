@@ -1,7 +1,7 @@
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { getModalState } from "../../services/reducers/modal";
+import { getModalState } from "../../services/modal/reducer";
 import { useLocation } from "react-router-dom";
 import { getIngredients } from "../../utils/api";
 

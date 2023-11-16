@@ -1,4 +1,4 @@
-import { SET_AUTH_CHECKED, SET_USER } from "../actions/user";
+import { SET_AUTH_CHECKED, SET_USER } from "./action";
 
 const initialState = {
   user: null,

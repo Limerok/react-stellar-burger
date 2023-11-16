@@ -7,7 +7,7 @@ import styles from "./login-page.module.css";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { login } from "../../services/actions/user";
+import { login } from "../../services/user/action";
 import { RoutePathname } from "../../utils/constant";
 
 

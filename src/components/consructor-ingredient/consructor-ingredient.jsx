@@ -6,7 +6,7 @@ import { useDrag, useDrop } from "react-dnd";
 import styles from "./consructor-ingredient.module.css"
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
-import { deleteIngredient } from "../../services/actions/burger-constructor";
+import { deleteIngredient } from "../../services/constructor/action";
 
 export const ConstructorIngredient = ({ ingredient, index, moveCard }) => {
 

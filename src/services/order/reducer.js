@@ -1,4 +1,4 @@
-import { GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS } from "../actions/order-details";
+import { GET_ORDER_FAILED, GET_ORDER_REQUEST, GET_ORDER_SUCCESS } from "./action";
 
 const orderInitialState = {
     order: {

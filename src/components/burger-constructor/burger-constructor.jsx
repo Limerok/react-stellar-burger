@@ -8,17 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addIngredient,
   swapIngedients,
-} from "../../services/actions/burger-constructor";
+} from "../../services/constructor/action";
 import { ItemTypes } from "../../utils/item-types";
-import { getConstructorState } from "../../services/reducers/burger-constructor";
-import { getModalState } from "../../services/reducers/modal";
+import { getConstructorState } from "../../services/constructor/reducer";
+import { getModalState } from "../../services/modal/reducer";
 import { useCallback, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
-import { ORDER_MODAL } from "../../services/actions/modal";
+import { ORDER_MODAL } from "../../services/modal/action";
 import { ConstructorIngredient } from "../consructor-ingredient/consructor-ingredient";
-import { getOrder } from "../../services/actions/order-details";
+import { getOrder } from "../../services/order/action";
 import { RoutePathname } from "../../utils/constant";
-import { getUserState } from "../../services/reducers/user";
+import { getUserState } from "../../services/user/reducer";
 import { useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
 import { OrderDetails } from "../order-details/order-details";

@@ -13,7 +13,7 @@ import { NotFound404 } from "../../pages/not-found404/not-found404";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { checkUserAuth } from "../../services/actions/user";
+import { checkUserAuth } from "../../services/user/action";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { Modal } from "../modal/modal";
 import { ProfileOrdersPage } from "../../pages/profile-orders-page/profile-orders-page";

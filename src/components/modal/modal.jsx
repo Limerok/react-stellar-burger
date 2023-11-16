@@ -4,7 +4,7 @@ import styles from "./modal.module.css"
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../services/actions/modal";
+import { closeModal } from "../../services/modal/action";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 
 const modalRoot = document.getElementById("modals");

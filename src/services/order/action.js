@@ -1,6 +1,6 @@
 import { fetchWithRefresh } from "../../utils/api";
 import { apiUrl } from "../../utils/constant";
-import { openOrderModal } from "./modal";
+import { openOrderModal } from "../modal/action";
 
 export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';

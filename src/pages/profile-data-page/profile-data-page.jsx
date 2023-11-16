@@ -8,9 +8,9 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getUser, uptadeUserData } from "../../services/actions/user";
+import { getUser, uptadeUserData } from "../../services/user/action";
 import { useForm } from "../../hooks/useForm";
-import { getUserState } from "../../services/reducers/user";
+import { getUserState } from "../../services/user/reducer";
 
 export const ProfileDataPage = () => {
   const dispatch = useDispatch();

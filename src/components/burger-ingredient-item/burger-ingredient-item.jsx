@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { ingredientPropType } from "../../utils/prop-types";
 import { useSelector } from "react-redux";
-import { getConstructorState } from "../../services/reducers/burger-constructor";
+import { getConstructorState } from "../../services/constructor/reducer";
 import { Link, useLocation } from "react-router-dom";
 
 export const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {

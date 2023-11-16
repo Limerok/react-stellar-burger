@@ -1,4 +1,4 @@
-import { ADD_INGREDIENT, DELETE_INGREDIENT, SWAP_INGREDIENT } from "../actions/burger-constructor";
+import { ADD_INGREDIENT, DELETE_INGREDIENT, SWAP_INGREDIENT } from "./action";
 
 
 const constructorInitialState = {
