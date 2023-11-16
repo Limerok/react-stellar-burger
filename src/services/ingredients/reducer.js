@@ -1,37 +1,25 @@
-import { GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS } from "./action";
+import { ingredientsFailed, ingredientsRequest, ingredientsSuccess } from "./action";
+import { createReducer } from '@reduxjs/toolkit';
 
 const ingrenientsInitialState = {
-    ingredients: [],
-    ingredientsRequest: false,
-    ingredientsFailed: false,
-}
+  ingredients: [],
+  ingredientsRequest: false,
+  ingredientsFailed: false,
+};
 
 export const getIngredientsState = (state) => state.ingredients;
 
-export const ingredientsReducer = (state = ingrenientsInitialState, action) => {
-    switch (action.type) {
-        case GET_INGREDIENTS_REQUEST: {
-            return {
-                ...state, 
-                ingredientsRequest: true,
-            }
-        }
-        case GET_INGREDIENTS_SUCCESS: {
-            return {
-                ...state, 
-                ingredientsFailed: false, 
-                ingredients: action.ingredients, 
-                ingredientsRequest: false,
-            }
-        }
-        case GET_INGREDIENTS_FAILED: {
-            return {
-                ...state,
-                ingredientsFailed: true,
-            }
-        }
-        default: {
-            return state
-        }
-    }
-}
+export const ingredientsReducer = createReducer(ingrenientsInitialState, (builder) => {
+    builder
+    .addCase(ingredientsRequest, (state) => {
+        state.ingredientsRequest = true;
+    })
+    .addCase(ingredientsSuccess, (state, action) => {
+        state.ingredientsFailed = false;
+        state.ingredients = action.payload;
+        state.ingredientsRequest = false;
+    })
+    .addCase(ingredientsFailed, (state) => {
+        state.ingredientsFailed = true;
+    });
+});

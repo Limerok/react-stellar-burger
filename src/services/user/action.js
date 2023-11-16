@@ -1,18 +1,8 @@
 import { api } from "../../utils/api";
+import { createAction } from '@reduxjs/toolkit';
 
-
-export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
-export const SET_USER = "SET_USER";
-
-export const setAuthChecked = (value) => ({
-  type: SET_AUTH_CHECKED,
-  payload: value,
-});
-
-export const setUser = (user) => ({
-  type: SET_USER,
-  payload: user,
-});
+export const setAuthChecked = createAction('user/setAuthChecked');
+export const setUser = createAction('user/setUser');
 
 export const getUser = () => {
   return (dispatch) => {

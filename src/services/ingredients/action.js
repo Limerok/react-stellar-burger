@@ -1,22 +1,10 @@
 import { checkReponse } from "../../utils/api";
 import { apiUrl } from "../../utils/constant";
+import { createAction } from '@reduxjs/toolkit';
 
-export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
-
-const ingredientsRequest = () => ({
-    type: GET_INGREDIENTS_REQUEST
-});
-
-const ingredientsFailed = () => ({
-    type: GET_INGREDIENTS_FAILED
-});
-
-const ingredientsSuccess = (ingredients) => ({
-    type: GET_INGREDIENTS_SUCCESS,
-    ingredients: ingredients
-});
+export const ingredientsRequest = createAction('ingredient/ingredientsRequest');
+export const ingredientsSuccess = createAction('ingredient/ingredientsSuccess');
+export const ingredientsFailed = createAction('ingredient/ingredientsFailed');
 
 export function loadIngredients() {
     return function(dispatch) {
