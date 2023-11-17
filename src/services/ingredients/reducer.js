@@ -1,5 +1,9 @@
-import { ingredientsFailed, ingredientsRequest, ingredientsSuccess } from "./action";
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer } from "@reduxjs/toolkit";
+import {
+  ingredientsRequest,
+  ingredientsFailed,
+  ingredientsSuccess,
+} from "./action";
 
 const ingrenientsInitialState = {
   ingredients: [],
@@ -9,17 +13,20 @@ const ingrenientsInitialState = {
 
 export const getIngredientsState = (state) => state.ingredients;
 
-export const ingredientsReducer = createReducer(ingrenientsInitialState, (builder) => {
+export const ingredientsReducer = createReducer(
+  ingrenientsInitialState,
+  (builder) => {
     builder
-    .addCase(ingredientsRequest, (state) => {
+      .addCase(ingredientsRequest, (state) => {
         state.ingredientsRequest = true;
-    })
-    .addCase(ingredientsSuccess, (state, action) => {
+      })
+      .addCase(ingredientsSuccess, (state, action) => {
         state.ingredientsFailed = false;
         state.ingredients = action.payload;
         state.ingredientsRequest = false;
-    })
-    .addCase(ingredientsFailed, (state) => {
+      })
+      .addCase(ingredientsFailed, (state) => {
         state.ingredientsFailed = true;
-    });
-});
+      });
+  }
+);

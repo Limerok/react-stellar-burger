@@ -1,57 +1,56 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import styles from "./modal.module.css"
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { closeModal } from "../../services/modal/action";
-import { ModalOverlay } from "../modal-overlay/modal-overlay";
+import styles from './modal.module.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { closeModal } from '../../services/modal/action';
+import { ModalOverlay } from '../modal-overlay/modal-overlay';
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById('modals');
 
-export const Modal = ({children, onClose}) => {
+export const Modal = ({ children, onClose }) => {
+
   const dispatch = useDispatch();
 
-  function closePopup() {
+  const handleClose = () => {
     dispatch(closeModal());
     onClose();
-  }
+  };
 
   function handleCloseByEsc(e) {
-    if (e.key === "Escape") {
-      closePopup();
+    if (e.key === 'Escape') {
+      handleClose();
     }
   }
 
   React.useEffect(() => {
-    document.addEventListener("keydown", handleCloseByEsc);
+    document.addEventListener('keydown', handleCloseByEsc);
 
     return () => {
-      document.removeEventListener("keydown", handleCloseByEsc);
-    }
-  }, [])
+      document.removeEventListener('keydown', handleCloseByEsc);
+    };
+  }, []);
 
   return ReactDOM.createPortal(
     (
       <>
+        <ModalOverlay handleCloseModal={handleClose} />
         <div className={`${styles.container} pt-10`}>
           <button
-              onClick={() => closePopup()}
-              className={styles.close}
-              aria-label="Закрытие модального окна"
-            >
-            <CloseIcon/>
+            onClick={handleClose}
+            className={styles.close}
+            aria-label="Закрытие модального окна"
+          >
+            <CloseIcon />
           </button>
           {children}
-          
         </div>
-        <ModalOverlay handleCloseModal={() => closePopup()}/>
       </>
-    ), modalRoot
+    ),
+    modalRoot
   );
-
-  
-}
+};
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,

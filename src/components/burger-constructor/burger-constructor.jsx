@@ -14,7 +14,6 @@ import { getConstructorState } from "../../services/constructor/reducer";
 import { getModalState } from "../../services/modal/reducer";
 import { useCallback, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
-import { ORDER_MODAL } from "../../services/modal/action";
 import { ConstructorIngredient } from "../consructor-ingredient/consructor-ingredient";
 import { getOrder } from "../../services/order/action";
 import { RoutePathname } from "../../utils/constant";
@@ -23,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
 import { OrderDetails } from "../order-details/order-details";
 import { Modal } from "../modal/modal";
+import { ORDER_MODAL } from "../../services/modal/action";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -52,12 +52,15 @@ const BurgerConstructor = () => {
   }, [modalType]);
 
   async function createOrder() {
+    if (price == 0) {
+      return;
+    }
     if (!user) {
       navigate(RoutePathname.loginPage);
     } else {
       setLoading(true);
       // Создание массива id ингредиентов для оформления заказа
-      const ingredientsId = ingredients.map((ingredient) => ingredient._id);
+      const ingredientsId = ingredients.map(ingredient => ingredient._id);
       if (bun) {
         ingredientsId.push(bun._id);
       }
@@ -70,7 +73,7 @@ const BurgerConstructor = () => {
   }
 
   const moveCard = useCallback((dragIndex, hoverIndex) => {
-    dispatch(swapIngedients({ fromIndex: dragIndex, toIndex: hoverIndex}));
+    dispatch(swapIngedients({ fromIndex: dragIndex, toIndex: hoverIndex }));
   }, []);
 
   const [, dropTarget] = useDrop({
@@ -92,7 +95,7 @@ const BurgerConstructor = () => {
           data-testid="loader"
         />
       </div>
-      <ul className={`ml-4 mr-4 mt-25 ${styles.main} ${loading ? styles.main_blured: ''}`}>
+      <ul className={`ml-4 mr-4 mt-25 ${styles.main} ${loading ? styles.main_blured : ''}`}>
         {bun && (
           <li className={styles.li}>
             <ConstructorElement
@@ -155,11 +158,13 @@ const BurgerConstructor = () => {
           </Button>
         )}
       </div>
-      {modalType === ORDER_MODAL && (
-        <Modal onClose={() => {}}>
-            <OrderDetails />
+      {modalType === ORDER_MODAL &&
+        <Modal onClose={() => {
+          // Временное решение, чтобы не ругался компилятор
+        }}>
+          <OrderDetails />
         </Modal>
-      )}
+      }
     </div>
   );
 };
