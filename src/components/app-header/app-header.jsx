@@ -20,9 +20,8 @@ export const AppHeader = () => {
                 <>
                   <BurgerIcon type={isActive ? "primary" : "secondary"} />
                   <p
-                    className={`text text_type_main-default ml-2 ${
-                      isActive ? "" : "text_color_inactive"
-                    }`}
+                    className={`text text_type_main-default ml-2 ${isActive ? "" : "text_color_inactive"
+                      }`}
                   >
                     Конструктор
                   </p>
@@ -31,11 +30,18 @@ export const AppHeader = () => {
             </NavLink>
           </li>
           <li className="pt-4 pb-4 pl-5 pr-5">
-            <NavLink className={styles.link}>
-              <ListIcon type="secondary" />
-              <p className="text text_type_main-default text_color_inactive ml-2">
-                Лента заказов
-              </p>
+            <NavLink to={RoutePathname.feedPage} className={styles.link}>
+              {({ isActive }) => (
+                <>
+                  <ListIcon type={isActive ? "primary" : "secondary"} />
+                  <p
+                    className={`text text_type_main-default ml-2 ${isActive ? "" : "text_color_inactive"
+                      }`}
+                  >
+                    Лента заказов
+                  </p>
+                </>
+              )}
             </NavLink>
           </li>
           <li className={styles.logo}>
@@ -47,9 +53,8 @@ export const AppHeader = () => {
                 <>
                   <ProfileIcon type={isActive ? "primary" : "secondary"} />
                   <p
-                    className={`text text_type_main-default ml-2 ${
-                      isActive ? "" : "text_color_inactive"
-                    }`}
+                    className={`text text_type_main-default ml-2 ${isActive ? "" : "text_color_inactive"
+                      }`}
                   >
                     Личный кабинет
                   </p>

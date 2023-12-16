@@ -2,10 +2,9 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getModalState } from "../../services/reducers/modal";
-import { getIngredientsState } from "../../services/reducers/burger-ingredients";
-import { loadIngredients } from "../../services/actions/burger-ingredients";
-import { openIngredientModal } from "../../services/actions/modal";
+import { getIngredientsState } from "../../services/ingredients/reducer";
+import { loadIngredients } from "../../services/ingredients/action";
+import { openModal } from "../../services/modal/action";
 import { BurgerIngredientItem } from "../burger-ingredient-item/burger-ingredient-item";
 
 export const BurgerIngredients = () => {
@@ -15,10 +14,6 @@ export const BurgerIngredients = () => {
 
   const [scrollPosition, setScrollPosition] = React.useState(0);
 
-  React.useEffect(() => {
-    dispatch(loadIngredients());
-  }, []);
-
   const bunTab = "buns";
   const mainTab = "main";
   const sauceTab = "sauce";
@@ -26,16 +21,16 @@ export const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = React.useState(bunTab);
 
   React.useEffect(() => {
-    const scrollWrapper = document.querySelector(".custom-scroll");
-    scrollWrapper.addEventListener("scroll", handleScroll, { passive: true });
+    const scrollWrapper = document.querySelector('.custom-scroll');
+    scrollWrapper.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      scrollWrapper.removeEventListener("scroll", handleScroll);
+      scrollWrapper.removeEventListener('scroll', handleScroll);
     };
   }, [scrollPosition]);
 
   const handleScroll = () => {
-    // Создание объекта типа "вкладка": "расстояние до верха"
+    // Создание объекта типа 'вкладка': 'расстояние до верха'
     const tabsDistance = {
       [bunTab]: getDistance(`.${bunTab}`),
       [sauceTab]: getDistance(`.${sauceTab}`),
@@ -51,9 +46,7 @@ export const BurgerIngredients = () => {
 
   const getDistance = (className) => {
     // Модуль расстояния от блока до вкладок
-    return Math.abs(
-      document.querySelector(className).getBoundingClientRect().top - 281
-    );
+    return Math.abs(document.querySelector(className).getBoundingClientRect().top - 281);
   };
 
   return (
@@ -87,9 +80,6 @@ export const BurgerIngredients = () => {
                 >
                   <BurgerIngredientItem
                     ingredient={ingredient}
-                    openIngredientDetails={() =>
-                      dispatch(openIngredientModal(ingredient))
-                    }
                   />
                 </li>
               ))}
@@ -107,9 +97,6 @@ export const BurgerIngredients = () => {
                 >
                   <BurgerIngredientItem
                     ingredient={ingredient}
-                    openIngredientDetails={() =>
-                      dispatch(openIngredientModal(ingredient))
-                    }
                   />
                 </li>
               ))}
@@ -127,9 +114,6 @@ export const BurgerIngredients = () => {
                 >
                   <BurgerIngredientItem
                     ingredient={ingredient}
-                    openIngredientDetails={() =>
-                      dispatch(openIngredientModal(ingredient))
-                    }
                   />
                 </li>
               ))}

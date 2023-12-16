@@ -8,12 +8,11 @@ import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { ingredientPropType } from "../../utils/prop-types";
 import { useSelector } from "react-redux";
-import { getConstructorState } from "../../services/reducers/burger-constructor";
+import { getConstructorState } from "../../services/constructor/reducer";
 import { Link, useLocation } from "react-router-dom";
 
-export const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
+export const BurgerIngredientItem = ({ ingredient }) => {
   const location = useLocation();
-  const ingredientId = ingredient._id;
 
   const { ingredients, bun } = useSelector(getConstructorState);
   const [count, setCount] = React.useState(0);
@@ -30,31 +29,26 @@ export const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
   React.useEffect(() => {
     let ingredientCount = 0;
 
-    if (bun && ingredient.type === "bun" && ingredient._id === bun._id) {
+    if (bun && ingredient.type === 'bun' && ingredient._id === bun._id) {
       ingredientCount = 1;
     } else {
-      ingredientCount = ingredients.filter(
-        (item) => item._id === ingredient._id
-      ).length;
+      ingredientCount = ingredients.filter(item => item._id === ingredient._id).length;
     }
     setCount(ingredientCount);
   }, [bun, ingredients]);
 
-  function clickIngredient() {
-    openIngredientDetails(ingredient);
-  }
+
 
   return (
     <Link
-      key={ingredientId}
-      to={`/ingredients/${ingredientId}`}
+      key={ingredient._id}
+      to={`/ingredients/${ingredient._id}`}
       state={{ background: location }}
       className={`text text_type_main-default ${styles.link}`}
     >
       <div
         ref={dragRef}
         className={styles.container}
-        onClick={clickIngredient}
       >
         {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
         <img
@@ -75,6 +69,5 @@ export const BurgerIngredientItem = ({ ingredient, openIngredientDetails }) => {
 };
 
 BurgerIngredientItem.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  openIngredientDetails: PropTypes.func.isRequired,
+  ingredient: ingredientPropType.isRequired
 };

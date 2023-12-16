@@ -18,11 +18,15 @@ export const ForgotPasswordPage = () => {
 
   const forgot = (e) => {
     e.preventDefault();
-    if (email) {
-      forgotPassword(email).then((res) => {
-        localStorage.setItem("forgot-password", true);
-        navigate(RoutePathname.resetPassPage);
-      });
+    if (email.length !== 0) {
+      forgotPassword(email)
+        .then(() => {
+          localStorage.setItem('forgot-password', true);
+          navigate(RoutePathname.resetPassPage);
+        })
+        .catch(err => {
+          console.log(`Error: ${err}`);
+        });
     }
   };
 

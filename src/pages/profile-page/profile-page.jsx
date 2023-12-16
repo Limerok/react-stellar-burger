@@ -1,7 +1,7 @@
 import { NavLink, Outlet,} from "react-router-dom";
 import styles from "./profile-page.module.css";
 import { useDispatch} from "react-redux";
-import { logout } from "../../services/actions/user";
+import { logout } from "../../services/user/action";
 import { RoutePathname } from "../../utils/constant";
 
 export const ProfilePage = () => {

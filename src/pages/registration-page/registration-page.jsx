@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { registerUser } from "../../services/actions/user";
+import { registerUser } from "../../services/user/action";
 import { useForm } from "../../hooks/useForm";
 
 

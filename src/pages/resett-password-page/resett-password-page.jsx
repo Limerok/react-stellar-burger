@@ -19,10 +19,14 @@ export const ResettPasswordPage = () => {
 
   const reset = (e) => {
     e.preventDefault();
-    resetPassword(values.password, values.token).then(() => {
-      localStorage.removeItem("forgot-password");
-      navigate(RoutePathname.loginPage);
-    });
+    resetPassword(values.password, values.token)
+      .then(() => {
+        localStorage.removeItem('forgot-password');
+        navigate(RoutePathname.loginPage);
+      })
+      .catch(err => {
+        console.log(`Error: ${err}`);
+      });
   };
 
   return !localStorage.getItem("forgot-password") ? (
@@ -42,7 +46,7 @@ export const ResettPasswordPage = () => {
         extraClass="mt-6"
         placeholder="Введите код из письма"
         onChange={handleChange}
-        value={values.token} 
+        value={values.token}
       />
 
       <Button
