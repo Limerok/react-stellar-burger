@@ -1,13 +1,19 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { addIngredient, clearIngredients, deleteIngredient, swapIngedients } from "./action";
+import { TIngedient } from "../../types/ingredient";
+import { RootState } from "../store";
 
+interface IConstructorState {
+  ingredients: Array<TIngedient>;
+  bun: TIngedient | null
+}
 
 const constructorInitialState = {
   ingredients: [],
   bun: null,
-};
+} as IConstructorState;
 
-export const getConstructorState = (state) => state.burgerConstructor;
+export const getConstructorState = (store:RootState) => store.burgerConstructor;
 
 export const constructorReducer = createReducer(
   constructorInitialState,
@@ -21,8 +27,8 @@ export const constructorReducer = createReducer(
         }
       })
       .addCase(deleteIngredient, (state, action) => {
-        const arr = state.payload.ingredients;
-        const index = arr.indexOf(action.payload.ingredient);
+        const arr = state.ingredients;
+        const index = arr.indexOf(action.payload);
         if (index > -1) {
           arr.splice(index, 1);
         }

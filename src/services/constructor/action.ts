@@ -1,8 +1,9 @@
 import { createAction, nanoid } from "@reduxjs/toolkit";
+import { TIngedient } from "../../types/ingredient";
 
 export const addIngredient = createAction(
   "constructor/addIngredient",
-  ({ ingredient }) => {
+  (ingredient: TIngedient) => {
     ingredient = {
       ...ingredient,
       uniqueId: nanoid(),
@@ -14,6 +15,6 @@ export const addIngredient = createAction(
     };
   }
 );
-export const deleteIngredient = createAction("constructor/deleteIngredient");
-export const swapIngedients = createAction("constructor/swapIngedients");
+export const deleteIngredient = createAction<TIngedient>("constructor/deleteIngredient");
+export const swapIngedients = createAction<{toIndex: number; fromIndex: number}>("constructor/swapIngedients");
 export const clearIngredients = createAction("constructor/clearIngredients");
