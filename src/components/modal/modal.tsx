@@ -6,23 +6,29 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../services/modal/action';
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
+import { useAppDispatch } from '../../hooks/hooks';
 
 const modalRoot = document.getElementById('modals');
 
-export const Modal = ({ children, onClose }) => {
+type TModal = {
+  children: JSX.Element;
+  onClose(): void;
+};
 
-  const dispatch = useDispatch();
+export const Modal = ({ children, onClose }: TModal) => {
+
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     dispatch(closeModal());
     onClose();
   };
 
-  function handleCloseByEsc(e) {
+  const handleCloseByEsc = (e: Event & {key: string}) => {
     if (e.key === 'Escape') {
       handleClose();
     }
-  }
+  };
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleCloseByEsc);
@@ -42,13 +48,13 @@ export const Modal = ({ children, onClose }) => {
             className={styles.close}
             aria-label="Закрытие модального окна"
           >
-            <CloseIcon />
+            <CloseIcon type='primary' />
           </button>
           {children}
         </div>
       </>
     ),
-    modalRoot
+    modalRoot as HTMLElement
   );
 };
 
