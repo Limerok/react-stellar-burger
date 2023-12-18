@@ -1,15 +1,40 @@
+import { TIngedient } from "../types/ingredient";
+import { TOrder } from "../types/order";
 import { apiUrl } from "./constant";
 
-export const checkResponse = (res) => {
+interface TResponse extends Response {
+  success: boolean;
+  refreshToken: string;
+  accessToken: string;
+}
+export interface IOrder extends TResponse {
+  order: TOrder
+}
+export interface IIngredient extends TResponse {
+  data: Array<TIngedient>
+}
+interface TError extends Error {
+  message: string;
+}
+export type TCustomHeaders = HeadersInit & {
+  authorization?: string | null;
+}
+export interface IOptions extends RequestInit {
+  headers: TCustomHeaders;
+}
+
+
+
+export const checkResponse = <T extends Response>(res: T): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const request = (url, options) => {
-  return fetch(url, options).then(checkResponse);
+export const request = <T extends Response, U extends RequestInit>(url: string, options: U | object = {}): Promise<T> => {
+  return (fetch(url, options).then(checkResponse) as Promise<T>);
 };
 
-export const refreshToken = () => {
-  return fetch(`${apiUrl}/auth/token`, {
+export const refreshToken = async () => {
+    return request<TResponse, IOptions>(`${apiUrl}/auth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -17,15 +42,14 @@ export const refreshToken = () => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkResponse);
+  });
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async<T extends TResponse> (url: string, options: IOptions): Promise<T> => {
   try {
-    const res = await fetch(url, options);
-    return await checkResponse(res);
+    return request<T, IOptions>(url, options);
   } catch (err) {
-    if (err.message === "jwt expired") {
+    if ((err as TError).message === 'jwt expired') {
       const refreshData = await refreshToken();
       if (!refreshData.success) {
         return Promise.reject(refreshData);
@@ -33,15 +57,14 @@ export const fetchWithRefresh = async (url, options) => {
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
-      const res = await fetch(url, options);
-      return await checkResponse(res);
+      return await request<T, IOptions>(url, options);
     } else {
       return Promise.reject(err);
     }
   }
 };
 
-export const resetPassword = (password, token) => {
+export const resetPassword = (password: string, token: string) => {
   const settings = {
     method: "POST",
     headers: {
@@ -56,7 +79,7 @@ export const resetPassword = (password, token) => {
   return request(`${apiUrl}/password-reset/reset`, settings);
 };
 
-export const forgotPassword = (email) => {
+export const forgotPassword = (email: string) => {
   const settings = {
     method: "POST",
     headers: {
@@ -69,7 +92,7 @@ export const forgotPassword = (email) => {
 };
 
 //Функции для userReducer
-const signInUser = (email, password) => {
+const signInUser = (email: string, password: string) => {
   return request(`${apiUrl}/auth/login`, {
     method: "POST",
     headers: {
@@ -94,7 +117,7 @@ const signOutUser = () => {
   });
 };
 
-const postRegistration = (name, email, password) => {
+const postRegistration = (name: string, email:string, password:string) => {
   const settings = {
     method: "POST",
     headers: {
@@ -117,18 +140,18 @@ const getUserData = () => {
       Accept: "application/json",
       "Content-Type": "application/json",
       authorization: localStorage.getItem("accessToken"),
-    },
+    } as TCustomHeaders,
   });
 };
 
-const patchUserData = (password, name, email) => {
+const patchUserData = (password: string, name: string, email: string) => {
   return fetchWithRefresh(`${apiUrl}/auth/user`, {
     method: "PATCH",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       authorization: localStorage.getItem("accessToken"),
-    },
+    } as TCustomHeaders,
     body: JSON.stringify({
       password: password,
       name: name,
@@ -137,7 +160,7 @@ const patchUserData = (password, name, email) => {
   });
 };
 
-const getOrder = (orderNumber) => {
+const getOrder = (orderNumber: number) => {
   return request(`${apiUrl}/orders/${orderNumber}`);
 };
 

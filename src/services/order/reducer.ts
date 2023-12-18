@@ -1,13 +1,21 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { orderRequest, orderSuccess, orderFailed } from "./action";
+import { TOrder } from "../../types/order";
+import { RootState } from "../store";
+
+type TOrderInitialState = {
+  order: TOrder;
+  orderRequest: boolean;
+  orderFailed: boolean;
+}
 
 const orderInitialState = {
   order: {},
   orderRequest: false,
   orderFailed: false,
-};
+} as TOrderInitialState;
 
-export const getOrderState = (state) => state.order;
+export const getOrderState = (state: RootState) => state.order;
 
 export const orderReducer = createReducer(orderInitialState, (builder) => {
   builder

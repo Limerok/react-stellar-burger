@@ -1,4 +1,4 @@
-import { request } from "../../utils/api";
+import { IIngredient, IOptions, request } from "../../utils/api";
 import { createAction } from "@reduxjs/toolkit";
 import { apiUrl } from "../../utils/constant";
 import { TIngedient } from "../../types/ingredient";
@@ -11,7 +11,7 @@ export const ingredientsFailed = createAction("ingredient/ingredientsFailed");
 export function loadIngredients() {
   return function (dispatch: AppDispatch) {
     dispatch(ingredientsRequest());
-    request(`${apiUrl}/ingredients`)
+    request<IIngredient, IOptions>(`${apiUrl}/ingredients`)
       .then((res) => {
         if (res && res.success) {
           dispatch(ingredientsSuccess(res.data));
