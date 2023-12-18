@@ -4,18 +4,17 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient-item.module.css";
-import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
-import { ingredientPropType } from "../../utils/prop-types";
-import { useSelector } from "react-redux";
 import { getConstructorState } from "../../services/constructor/reducer";
 import { Link, useLocation } from "react-router-dom";
+import { TIngedient } from "../../types/ingredient";
+import { useAppSelector } from "../../hooks/hooks";
 
-export const BurgerIngredientItem = ({ ingredient }) => {
+export const BurgerIngredientItem = ({ ingredient } : {ingredient: TIngedient}): JSX.Element => {
   const location = useLocation();
 
-  const { ingredients, bun } = useSelector(getConstructorState);
-  const [count, setCount] = React.useState(0);
+  const { ingredients, bun } = useAppSelector(getConstructorState);
+  const [count, setCount] = React.useState<number>(0);
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -66,8 +65,4 @@ export const BurgerIngredientItem = ({ ingredient }) => {
       </div>
     </Link>
   );
-};
-
-BurgerIngredientItem.propTypes = {
-  ingredient: ingredientPropType.isRequired
 };
