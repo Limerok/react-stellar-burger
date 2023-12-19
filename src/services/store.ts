@@ -1,12 +1,13 @@
-import { constructorReducer } from "./constructor/reducer";
-import { ingredientsReducer } from "./ingredients/reducer";
-import { orderReducer } from "./order/reducer";
-import { modalReducer } from "./modal/reducer";
-import { userReducer } from "./user/reducer";
 import { feedReducer } from "./feed/reducer";
 import { historyReducer } from "./history/reducer";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { Action, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { socketMiddleware } from "./middleware/socket-middleware";
+import { constructorSlice } from "./constructor/slice";
+import { ingredientsSlice } from "./ingredients/slice";
+import { orderSlice } from "./order/slice";
+import { modalSlice } from "./modal/slice";
+import { userSlice } from "./user/slice";
+import { TFeed } from "../types/feed";
 import {
   connect as feedConnect,
   disconnect as feedDisconnect,
@@ -26,15 +27,17 @@ import {
   wsMessage as orderWsMessage,
   wsOpen as orderWsOpen,
 } from "./history/action";
+import { AppThunk, TAppActions } from "../hooks/hooks";
+
 
 const reducer = combineReducers({
-  burgerConstructor: constructorReducer,
-  ingredients: ingredientsReducer,
-  order: orderReducer,
-  modal: modalReducer,
-  user: userReducer,
-  feed: feedReducer,
-  history: historyReducer,
+  burgerConstructor: constructorSlice.reducer,
+  ingredients: ingredientsSlice.reducer,
+  order: orderSlice.reducer,
+  modal: modalSlice.reducer,
+  user: userSlice.reducer,
+  feed: feedReducer, 
+  history: historyReducer
 });
 
 export interface IWSActions {
@@ -55,7 +58,7 @@ const feedMiddleware = socketMiddleware({
   onClose: feedWsClose,
   onError: feedWsError,
   onMessage: feedWsMessage,
-}as IWSActions);
+} as IWSActions );
 
 const ordersMiddleware = socketMiddleware({
   wsConnect: orderConnect,
@@ -65,13 +68,13 @@ const ordersMiddleware = socketMiddleware({
   onClose: orderWsClose,
   onError: orderWsError,
   onMessage: orderWsMessage,
-}as IWSActions);
+} as IWSActions);
+
 
 export const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(feedMiddleware, ordersMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(feedMiddleware, ordersMiddleware)
 });
 
 export type RootState = ReturnType<typeof reducer>
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch<TReturn = void> = ( action: TAppActions | AppThunk<TReturn> ) => TReturn;

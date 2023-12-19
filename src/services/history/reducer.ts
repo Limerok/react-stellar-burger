@@ -16,27 +16,27 @@ const initialState = {
   orders: [],
   total: null,
   totalToday: null,
-  connectingError: "",
+  connectingError: ''
 } as TInitialState;
 
 export const historyReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(wsConnecting, (state) => {
-      state.status = WebsocketStatus.CONNECTING;
+    .addCase(wsConnecting, state => {
+          state.status = WebsocketStatus.CONNECTING;
+      })
+    .addCase(wsOpen, state => {
+        state.status = WebsocketStatus.ONLINE;
+        state.connectingError = '';
     })
-    .addCase(wsOpen, (state) => {
-      state.status = WebsocketStatus.ONLINE;
-      state.connectingError = "";
-    })
-    .addCase(wsClose, (state) => {
-      state.status = WebsocketStatus.OFFLINE;
+    .addCase(wsClose, state => {
+        state.status = WebsocketStatus.OFFLINE;
     })
     .addCase(wsError, (state, action) => {
-      state.connectingError = action.payload;
+        state.connectingError = action.payload;
     })
     .addCase(wsMessage, (state, action) => {
-      state.orders = action.payload.orders;
-      state.total = action.payload.total;
-      state.totalToday = action.payload.totalToday;
+        state.orders = action.payload.orders;
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
     });
 });

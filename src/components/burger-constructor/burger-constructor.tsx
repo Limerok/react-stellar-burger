@@ -4,26 +4,21 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import {
-  addIngredient,
-  swapIngedients,
-} from "../../services/constructor/action";
-import { ItemTypes } from "../../utils/item-types";
-import { getConstructorState } from "../../services/constructor/reducer";
-import { getModalState } from "../../services/modal/reducer";
 import { CSSProperties, useCallback, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { ConstructorIngredient } from "../consructor-ingredient/consructor-ingredient";
 import { getOrder } from "../../services/order/action";
 import { RoutePathname } from "../../utils/constant";
-import { getUserState } from "../../services/user/reducer";
 import { useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
 import { OrderDetails } from "../order-details/order-details";
 import { Modal } from "../modal/modal";
-import { ORDER_MODAL } from "../../services/modal/action";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { TIngedient } from "../../types/ingredient";
+import { addIngredient, getConstructorState, swapIngedients } from "../../services/constructor/slice";
+import { ORDER_MODAL, getModalState } from "../../services/modal/slice";
+import { getUserState } from "../../services/user/slice";
+import { ItemTypes } from "../../utils/ItemTypes";
 
 const override: CSSProperties = {
   display: 'block',

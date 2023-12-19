@@ -1,13 +1,13 @@
 import styles from "./consructor-ingredient.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { deleteIngredient } from "../../services/constructor/action";
-import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from 'prop-types';
-import { ItemTypes } from "../../utils/item-types";
+import { ItemTypes } from "../../utils/ItemTypes";
 import { XYCoord, useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { TIngedient } from "../../types/ingredient";
+import { useAppDispatch } from "../../hooks/hooks";
+import { deleteIngredient } from "../../services/constructor/slice";
 
 
 type TConstructorIngredient = {
@@ -22,10 +22,9 @@ interface DragItem {
   type: string
 }
 
+export const ConstructorIngredient = ({ ingredient, index, moveCard }: TConstructorIngredient): JSX.Element => {
 
-export const ConstructorIngredient = ({ ingredient, index, moveCard }: TConstructorIngredient) : JSX.Element => {
-
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop({
@@ -89,10 +88,4 @@ export const ConstructorIngredient = ({ ingredient, index, moveCard }: TConstruc
       />
     </div>
   );
-}
-
-ConstructorIngredient.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  index: PropTypes.number.isRequired,
-  moveCard: PropTypes.func.isRequired
 }

@@ -3,7 +3,7 @@ import { RoutePathname } from "../../utils/constant";
 import { useAppSelector } from "../../hooks/hooks";
 
 
-const Protected = ({ onlyUnAuth = false, component }: { onlyUnAuth?: boolean, component: JSX.Element}): JSX.Element | null => {
+const Protected = ({ onlyUnAuth = false, component }: { onlyUnAuth?: boolean, component: JSX.Element }): JSX.Element | null => {
   const isAuthChecked = useAppSelector((store) => store.user.isAuthChecked);
   const user = useAppSelector((store) => store.user.user);
   const location = useLocation();
@@ -26,6 +26,6 @@ const Protected = ({ onlyUnAuth = false, component }: { onlyUnAuth?: boolean, co
 
 export const OnlyAuth = Protected;
 
-export const OnlyUnAuth = ({component}: {component: JSX.Element}) => (
+export const OnlyUnAuth = ({ component }: { component: JSX.Element }) => (
   <Protected onlyUnAuth={true} component={component} />
 );

@@ -1,15 +1,15 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import { getIngredientsState } from "../../services/ingredients/reducer";
 import { BurgerIngredientItem } from "../burger-ingredient-item/burger-ingredient-item";
 import { useAppSelector } from "../../hooks/hooks";
+import { getIngredientsState } from "../../services/ingredients/slice";
 
 export const BurgerIngredients = () => {
 
   const { ingredients } = useAppSelector(getIngredientsState);
 
-  const [scrollPosition, setScrollPosition] = React.useState<number>(0);
+  const [ scrollPosition, setScrollPosition ] = React.useState<number>(0);
 
   const bunTab = "buns";
   const mainTab = "main";

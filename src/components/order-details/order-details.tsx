@@ -1,10 +1,10 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-details.module.css";
-import { getOrderState } from "../../services/order/reducer";
 import { useAppSelector } from "../../hooks/hooks";
+import { getOrderState } from "../../services/order/slice";
 
 export const OrderDetails = (): JSX.Element => {
-  const { order } = useAppSelector(getOrderState)
+  const { order } = useAppSelector(getOrderState);
 
   const orderInfo = {
     textId: "идентификатор заказа",

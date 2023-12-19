@@ -29,7 +29,7 @@ export const socketMiddleware = (wsActions: IWSActions): Middleware<RootState> =
         };
 
         socket.onerror = () => {
-          dispatch(onError("Error"));
+          dispatch(onError('Error'));
         };
 
         socket.onmessage = (event) => {

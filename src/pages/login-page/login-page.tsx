@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { login } from "../../services/user/action";
 import { RoutePathname } from "../../utils/constant";
-import { AppThunk, useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 
 
@@ -16,32 +16,28 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((store) => store.user.user);
-  
+
   const { values, handleChange } = useForm({
     email: "",
     password: "",
-});
+  });
 
-const signIn = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault()
-  if(values.email && values.password) {
-      dispatch<AppThunk>(
-          login(values.email, values.password)
-      )
-      /* .then(() => {
-          navigate(RoutePathname.homePage)
-      })
-      .catch(err => {
-          console.log(`Error: ${err}`)
-      }) */
+  const signIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (values.email && values.password) {
+      dispatch(login({ email: values.email, password: values.password })
+      );
+      if (user !== null) {
+        navigate(RoutePathname.homePage);
+      }
+    }
   }
-}
 
   return (
-    <form className={styles.main} onSubmit={signIn}> 
+    <form className={styles.main} onSubmit={signIn}>
       <h1 className="text text_type_main-medium">Вход</h1>
-      <EmailInput name="email" extraClass="mt-6" value={values.email} onChange={handleChange}/>
-      <PasswordInput name={"password"} extraClass="mt-6" value={values.password} onChange={handleChange}/>
+      <EmailInput name="email" extraClass="mt-6" value={values.email} onChange={handleChange} />
+      <PasswordInput name={"password"} extraClass="mt-6" value={values.password} onChange={handleChange} />
       <Button
         htmlType="submit"
         type="primary"

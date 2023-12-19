@@ -9,7 +9,7 @@ import { useState } from "react";
 import { forgotPassword } from "../../utils/api";
 
 export const ForgotPasswordPage = (): JSX.Element => {
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ export const ForgotPasswordPage = (): JSX.Element => {
     if (email.length !== 0) {
       forgotPassword(email)
         .then(() => {
-          localStorage.setItem('forgot-password', 'true');
+          localStorage.setItem('forgot-password', 'true' );
           navigate(RoutePathname.resetPassPage);
         })
         .catch(err => {

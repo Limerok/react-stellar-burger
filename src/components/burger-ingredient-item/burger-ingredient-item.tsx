@@ -5,12 +5,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient-item.module.css";
 import { useDrag } from "react-dnd";
-import { getConstructorState } from "../../services/constructor/reducer";
 import { Link, useLocation } from "react-router-dom";
 import { TIngedient } from "../../types/ingredient";
 import { useAppSelector } from "../../hooks/hooks";
+import { getConstructorState } from "../../services/constructor/slice";
 
-export const BurgerIngredientItem = ({ ingredient } : {ingredient: TIngedient}): JSX.Element => {
+export const BurgerIngredientItem = ( { ingredient } : {ingredient: TIngedient}): JSX.Element => {
   const location = useLocation();
 
   const { ingredients, bun } = useAppSelector(getConstructorState);

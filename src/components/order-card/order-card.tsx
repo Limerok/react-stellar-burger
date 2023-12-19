@@ -4,21 +4,23 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 import { getStatus } from '../../utils/utils';
-import { getIngredientsState } from '../../services/ingredients/reducer';
-import { useSelector } from 'react-redux';
 import { RoutePathname } from '../../utils/constant';
+import { useAppSelector } from '../../hooks/hooks';
+import { TOrder } from '../../types/order';
+import { getIngredientsState } from '../../services/ingredients/slice';
+import { TIngedient } from '../../types/ingredient';
 
-export const OrderCard = ({ order }) => {
+export const OrderCard = ({ order }: {order: TOrder}) => {
   const [price, setPrice] = useState(0);
   const location = useLocation();
 
-  const { ingredients } = useSelector(getIngredientsState);
-  const [orderIngredients, setOrderIngredients] = useState([]);
+  const { ingredients } = useAppSelector(getIngredientsState);
+  const [orderIngredients, setOrderIngredients] = useState<Array<TIngedient>>([]);
 
   useEffect(() => {
     if (ingredients.length !== 0) {
       const currentOrderIngredients = order.ingredients.map((id) => ingredients.find(ingredient => ingredient._id === id));
-      setOrderIngredients(currentOrderIngredients);
+      setOrderIngredients(currentOrderIngredients as Array<TIngedient>);
     }
   }, [ingredients]);
 
@@ -60,7 +62,7 @@ export const OrderCard = ({ order }) => {
           </div>
           <div className={`mt-6 ${styles.sum}`}>
             <p className='text text_type_digits-default mr-2'>{price}</p>
-            <CurrencyIcon />
+            <CurrencyIcon type='primary'/>
           </div>
         </div>
       </div>

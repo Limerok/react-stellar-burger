@@ -7,9 +7,6 @@ import {
 import styles from "./registration-page.module.css";
 import { Link } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-
 import { useForm } from "../../hooks/useForm";
 import { useAppDispatch } from "../../hooks/hooks";
 import { registerUser } from "../../services/user/action";
@@ -27,7 +24,7 @@ export const RegistrationPage = (): JSX.Element => {
   const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (values.email && values.name && values.password) {
-      dispatch(registerUser(values.email, values.password, values.name));
+      dispatch(registerUser({email: values.email, password: values.password, name: values.name}));
     }
   };
 

@@ -1,9 +1,9 @@
 import styles from "./ingredient-details.module.css";
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
-import { getIngredientsState } from "../../services/ingredients/reducer";
 import { useAppSelector } from "../../hooks/hooks";
 import { TIngedient } from "../../types/ingredient";
+import { getIngredientsState } from "../../services/ingredients/slice";
 
 const text = {
   calories: "Калории,ккал",
@@ -27,7 +27,7 @@ export const IngredientDetails = () => {
       const currentIngredient = ingredients.find(ingredient => ingredient._id === ingredientId); // находим по id
       if(typeof currentIngredient !== undefined) {
         setIngredient(currentIngredient);
-      }
+    }
     }
   }, [location, ingredients]);
 

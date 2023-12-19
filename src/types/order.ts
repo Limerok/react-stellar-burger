@@ -4,5 +4,5 @@ export type TOrder = {
   status: string;
   number: number;
   createdAt: string;
-  _id: string;
+  _id: string
 }

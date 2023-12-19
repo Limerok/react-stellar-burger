@@ -3,10 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { closeModal } from '../../services/modal/action';
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
 import { useAppDispatch } from '../../hooks/hooks';
+import { closeModal } from '../../services/modal/slice';
 
 const modalRoot = document.getElementById('modals');
 
@@ -15,7 +14,7 @@ type TModal = {
   onClose(): void;
 };
 
-export const Modal = ({ children, onClose }: TModal) => {
+export const Modal = ({ children, onClose }: TModal): JSX.Element => {
 
   const dispatch = useAppDispatch();
 
@@ -24,7 +23,7 @@ export const Modal = ({ children, onClose }: TModal) => {
     onClose();
   };
 
-  const handleCloseByEsc = (e: Event & {key: string}) => {
+  const handleCloseByEsc = (e: Event & { key: string }) => {
     if (e.key === 'Escape') {
       handleClose();
     }

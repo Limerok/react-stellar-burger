@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { checkUserAuth } from "../../services/user/action";
 import { loadIngredients } from "../../services/ingredients/action";
@@ -14,15 +13,15 @@ import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { FeedPage } from "../../pages/feed-page/feed-page";
 import { HomePage } from "../../pages/home-page/home-page";
 import { LoginPage } from "../../pages/login-page/login-page";
-import { RegistrationPage } from "../../pages/registration-page/registration-page";
 import { ForgotPasswordPage } from "../../pages/forgot-password-page/forgot-password-page";
 import { ResettPasswordPage } from "../../pages/resett-password-page/resett-password-page";
 import { ProfilePage } from "../../pages/profile-page/profile-page";
 import { ProfileDataPage } from "../../pages/profile-data-page/profile-data-page";
 import { ProfileOrders } from "../../pages/profile-orders-page/profile-orders-page";
 import { useAppDispatch } from "../../hooks/hooks";
+import { RegistrationPage } from "../../pages/registration-page/registration-page";
 
-const App = () => {
+export const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();

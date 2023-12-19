@@ -1,4 +1,4 @@
-import { TOrder } from "./order";
+import { TOrder } from './order';
 
 export type TFeed = {
   orders: Array<TOrder>;

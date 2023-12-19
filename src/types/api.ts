@@ -1,7 +1,6 @@
-import { TIngedient } from "./ingredient";
-import { TOrder } from "./order";
-import { TUser } from "./user";
-
+import { TOrder } from '../types/order';
+import { TIngedient } from '../types/ingredient';
+import { TUser } from './user';
 
 export interface IResponse extends Response {
   success: boolean;
@@ -32,8 +31,6 @@ export interface IOptions extends RequestInit {
   headers: ICustomHeaders;
 }
 
-export interface IUserResponse extends IResponse{
+export interface IUserResponse extends IResponse {
   user: TUser;
-  accessToken: string;
-  refreshToken: string;
 }

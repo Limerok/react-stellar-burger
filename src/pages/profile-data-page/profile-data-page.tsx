@@ -8,8 +8,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getUser, uptadeUserData } from "../../services/user/action";
 import { useForm } from "../../hooks/useForm";
-import { getUserState } from "../../services/user/reducer";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { getUserState } from "../../services/user/slice";
 
 export const ProfileDataPage = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -22,26 +22,26 @@ export const ProfileDataPage = (): JSX.Element => {
     email: "",
     password: "",
   });
-  
+
   const setDefault = () => {
-    if(user !== null) {
+    if (user !== null) {
       setValues({
-          name: user.name,
-          email: user.email,
-          password: '',
+        name: user.name,
+        email: user.email,
+        password: '',
       });
-  }
+    }
   }
 
   const submitData = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    dispatch(uptadeUserData(values.password, values.name, values.email))
+    e.preventDefault();
+    dispatch(uptadeUserData({email: values.email, name: values.name, password: values.password}));
   }
 
   useEffect(() => {
     dispatch(getUser())
     if (user) {
-        setDefault();
+      setDefault();
     }
   }, [])
 
@@ -71,9 +71,9 @@ export const ProfileDataPage = (): JSX.Element => {
         value={values.password}
         onChange={handleChange}
       />
-      <div className={values.password.length !== 0 || 
-                        user?.name !== values.name || 
-                        user.email !== values.email ? styles.buttons_active: styles.buttons }>
+      <div className={values.password.length !== 0 ||
+        user?.name !== values.name ||
+        user.email !== values.email ? styles.buttons_active : styles.buttons}>
         <Button
           htmlType="button"
           type="secondary"

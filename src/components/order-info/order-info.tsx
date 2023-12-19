@@ -1,13 +1,13 @@
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-info.module.css';
 import { useEffect, useState } from 'react';
-import { api} from '../../utils/api';
+import { api } from '../../utils/api';
 import { useLocation } from 'react-router-dom';
 import { getStatus } from '../../utils/utils';
-import { getIngredientsState } from '../../services/ingredients/reducer';
 import { useAppSelector } from '../../hooks/hooks';
 import { TOrder } from '../../types/order';
 import { TIngedient } from '../../types/ingredient';
+import { getIngredientsState } from '../../services/ingredients/slice';
 
 export const OrderInfo = (): JSX.Element => {
   const { ingredients } = useAppSelector(getIngredientsState);
@@ -17,6 +17,7 @@ export const OrderInfo = (): JSX.Element => {
   const [price, setPrice] = useState<number>(0);
   const [ingredientCount, setIngredientCount] = useState<{ [name: string]: number }>();
   const background = location.state && location.state.background;
+  const [date, setDate] = useState<Date>(new Date());
 
   // подгрузка заказа по номеру 
   useEffect(() => {
@@ -27,7 +28,8 @@ export const OrderInfo = (): JSX.Element => {
 
   // подгрузка всех ингредиентов 
   useEffect(() => {
-    if ((order !== undefined && Object.keys(order).length !== 0 && ingredients.length !== 0)) {
+    if (order !== undefined && Object.keys(order).length !== 0 && ingredients.length !== 0) {
+      setDate(new Date(order.createdAt));
       // поиск текущих ингредиентов
       const currentIngredients = order.ingredients.map(ingredientId => {
         return ingredients.find(ingredient => ingredient._id === ingredientId);
@@ -65,7 +67,7 @@ export const OrderInfo = (): JSX.Element => {
                 <p className="text text_type_main-default">{ingredient.name}</p>
               </div>
               <div className={styles.flex}>
-                <p className="text text_type_digits-default"> {(ingredientCount as { [name: string]: number })[ingredient._id]} x {ingredient.price} </p>
+                <p className="text text_type_digits-default"> {(ingredientCount as {[name: string]: number})[ingredient._id]} x {ingredient.price} </p>
                 <CurrencyIcon type='primary' />
               </div>
             </li>
@@ -74,10 +76,10 @@ export const OrderInfo = (): JSX.Element => {
         </ul>
       </div>
       <div className={`mt-10 ${styles.details}`}>
-        <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date((order as TOrder).createdAt)} />
+        <FormattedDate className="text text_type_main-default text_color_inactive" date={date} />
         <div className={styles.flex}>
           <p className="text text_type_digits-default">{price}</p>
-          <CurrencyIcon type='primary'/>
+          <CurrencyIcon type='primary' />
         </div>
       </div>
     </div>
