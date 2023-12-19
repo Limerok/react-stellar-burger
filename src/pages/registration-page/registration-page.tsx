@@ -9,19 +9,22 @@ import { Link } from "react-router-dom";
 import { RoutePathname } from "../../utils/constant";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { registerUser } from "../../services/user/action";
+
 import { useForm } from "../../hooks/useForm";
+import { useAppDispatch } from "../../hooks/hooks";
+import { registerUser } from "../../services/user/action";
 
 
-export const RegistrationPage = () => {
-  const dispatch = useDispatch();
+
+export const RegistrationPage = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const { values, handleChange } = useForm({
     email: "",
     name: "",
     password: "",
   });
 
-  const register = (e) => {
+  const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (values.email && values.name && values.password) {
       dispatch(registerUser(values.email, values.password, values.name));

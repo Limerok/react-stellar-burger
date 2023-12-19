@@ -8,13 +8,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { login } from "../../services/user/action";
 import { RoutePathname } from "../../utils/constant";
-import { useAppDispatch } from "../../hooks/hooks";
+import { AppThunk, useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 
 
 export const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector((store) => store.user.user);
   
   const { values, handleChange } = useForm({
     email: "",
@@ -24,15 +25,15 @@ export const LoginPage = () => {
 const signIn = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault()
   if(values.email && values.password) {
-      dispatch(
+      dispatch<AppThunk>(
           login(values.email, values.password)
       )
-      .then(() => {
+      /* .then(() => {
           navigate(RoutePathname.homePage)
       })
       .catch(err => {
           console.log(`Error: ${err}`)
-      })
+      }) */
   }
 }
 

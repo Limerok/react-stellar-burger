@@ -3,7 +3,7 @@
   return location === url ? valueOne : valueTwo;
 }; */
 
-export const getStatus = (orderStatus) => {
+export const getStatus = (orderStatus: string | undefined) => {
   switch (orderStatus) {
     case "done":
       return "Выполнен";

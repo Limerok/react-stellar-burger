@@ -9,7 +9,7 @@ import { RoutePathname } from "../../utils/constant";
 import { resetPassword } from "../../utils/api";
 import { useForm } from "../../hooks/useForm";
 
-export const ResettPasswordPage = () => {
+export const ResettPasswordPage = (): JSX.Element => {
   const { values, handleChange } = useForm({
     token: "",
     password: "",
@@ -17,7 +17,7 @@ export const ResettPasswordPage = () => {
 
   const navigate = useNavigate();
 
-  const reset = (e) => {
+  const reset = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetPassword(values.password, values.token)
       .then(() => {

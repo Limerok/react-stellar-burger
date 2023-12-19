@@ -1,6 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { WebsocketStatus } from "../../utils/orders";
 import { wsConnecting, wsOpen, wsClose, wsError, wsMessage } from "./action";
+import { TOrder } from "../../types/order";
+
+type TInitialState = {
+  status: string;
+  orders: Array<TOrder>
+  total: null | number;
+  totalToday: null | number;
+  connectingError: string;
+}
 
 const initialState = {
   status: WebsocketStatus.OFFLINE,
@@ -8,9 +17,9 @@ const initialState = {
   total: null,
   totalToday: null,
   connectingError: "",
-};
+} as TInitialState;
 
-export const feedReducer = createReducer(initialState, (builder) => {
+export const historyReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(wsConnecting, (state) => {
       state.status = WebsocketStatus.CONNECTING;

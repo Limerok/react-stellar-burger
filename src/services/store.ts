@@ -5,7 +5,7 @@ import { modalReducer } from "./modal/reducer";
 import { userReducer } from "./user/reducer";
 import { feedReducer } from "./feed/reducer";
 import { historyReducer } from "./history/reducer";
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { socketMiddleware } from "./middleware/socket-middleware";
 import {
   connect as feedConnect,
@@ -27,7 +27,7 @@ import {
   wsOpen as orderWsOpen,
 } from "./history/action";
 
-const reducer = {
+const reducer = combineReducers({
   burgerConstructor: constructorReducer,
   ingredients: ingredientsReducer,
   order: orderReducer,
@@ -35,7 +35,17 @@ const reducer = {
   user: userReducer,
   feed: feedReducer,
   history: historyReducer,
-};
+});
+
+export interface IWSActions {
+  wsConnect: Action,
+  wsDisconnect: Action,
+  wsConnecting: Action,
+  onOpen: Action,
+  onClose: Action,
+  onError(error: string): Action,
+  onMessage(message: TFeed): Action,
+}
 
 const feedMiddleware = socketMiddleware({
   wsConnect: feedConnect,
@@ -45,7 +55,7 @@ const feedMiddleware = socketMiddleware({
   onClose: feedWsClose,
   onError: feedWsError,
   onMessage: feedWsMessage,
-});
+}as IWSActions);
 
 const ordersMiddleware = socketMiddleware({
   wsConnect: orderConnect,
@@ -55,13 +65,13 @@ const ordersMiddleware = socketMiddleware({
   onClose: orderWsClose,
   onError: orderWsError,
   onMessage: orderWsMessage,
-});
+}as IWSActions);
 
 export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(feedMiddleware, ordersMiddleware),
+    getDefaultMiddleware().prepend(feedMiddleware, ordersMiddleware),
 });
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof reducer>
 export type AppDispatch = typeof store.dispatch

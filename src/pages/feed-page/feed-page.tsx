@@ -1,17 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { OrderCard } from '../../components/order-card/order-card';
-import { getIngredients } from '../../utils/api';
-import { testOrders, wsApiUrl } from '../../utils/constant';
+import { wsApiUrl } from '../../utils/constant';
 import styles from './feed-page.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { connect, disconnect } from '../../services/feed/action';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 
-export const FeedPage = () => {
-    const dispatch = useDispatch();
+export const FeedPage = (): JSX.Element => {
+    const dispatch = useAppDispatch();
     const location = useLocation();
-    const feed = useSelector(store => store.feed);
+    const feed = useAppSelector(store => store.feed);
 
     useEffect(() => {
         dispatch(connect(`${wsApiUrl}/all`));

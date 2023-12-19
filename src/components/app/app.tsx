@@ -20,9 +20,10 @@ import { ResettPasswordPage } from "../../pages/resett-password-page/resett-pass
 import { ProfilePage } from "../../pages/profile-page/profile-page";
 import { ProfileDataPage } from "../../pages/profile-data-page/profile-data-page";
 import { ProfileOrders } from "../../pages/profile-orders-page/profile-orders-page";
+import { useAppDispatch } from "../../hooks/hooks";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -40,7 +41,7 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
       <Routes location={background || location}>
-        <Route exact path={RoutePathname.homePage} element={<HomePage />} />
+        <Route path={RoutePathname.homePage} element={<HomePage />} />
         <Route path={RoutePathname.ingredientDetailsPage} element={<IngredientDetails />} />
         <Route path={RoutePathname.feedOrderInfoPage} element={<OrderInfo />} />
         <Route path={RoutePathname.profileOrdersInfoPage} element={<OnlyAuth component={<OrderInfo />} />} />

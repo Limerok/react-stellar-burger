@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import styles from "./profile-data-page.module.css";
-import { useState } from "react";
 import {
   Button,
   EmailInput,
@@ -11,11 +9,12 @@ import {
 import { getUser, uptadeUserData } from "../../services/user/action";
 import { useForm } from "../../hooks/useForm";
 import { getUserState } from "../../services/user/reducer";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
-export const ProfileDataPage = () => {
-  const dispatch = useDispatch();
+export const ProfileDataPage = (): JSX.Element => {
+  const dispatch = useAppDispatch();
 
-  const { user } = useSelector(getUserState);
+  const { user } = useAppSelector(getUserState);
 
 
   const { values, handleChange, setValues } = useForm({
@@ -25,14 +24,16 @@ export const ProfileDataPage = () => {
   });
   
   const setDefault = () => {
-    setValues({
-        name: user.name,
-        email: user.email,
-        password: '',
-    })
+    if(user !== null) {
+      setValues({
+          name: user.name,
+          email: user.email,
+          password: '',
+      });
+  }
   }
 
-  const submitData = (e) => {
+  const submitData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(uptadeUserData(values.password, values.name, values.email))
   }
@@ -59,7 +60,7 @@ export const ProfileDataPage = () => {
         name="email"
         placeholder={"Логин"}
         extraClass="mt-6 mb-6"
-        icon={"EditIcon"}
+        isIcon={true}
         value={values.email}
         onChange={handleChange}
       />
@@ -71,7 +72,7 @@ export const ProfileDataPage = () => {
         onChange={handleChange}
       />
       <div className={values.password.length !== 0 || 
-                        user.name !== values.name || 
+                        user?.name !== values.name || 
                         user.email !== values.email ? styles.buttons_active: styles.buttons }>
         <Button
           htmlType="button"

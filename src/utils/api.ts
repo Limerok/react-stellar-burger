@@ -1,9 +1,6 @@
 
-import { ICustomHeaders, IError, IOptions, IResponse, IUserResponse } from "../types/api";
+import { ICustomHeaders, IError, IOptions, IOrdersResponse, IResponse, IUserResponse } from "../types/api";
 import { apiUrl } from "./constant";
-
-
-
 
 
 export const checkResponse = <T extends Response>(res: T): Promise<T> => {
@@ -141,8 +138,8 @@ const patchUserData = (password: string, name: string, email: string) => {
   });
 };
 
-const getOrder = (orderNumber: number) => {
-  return request(`${apiUrl}/orders/${orderNumber}`);
+const getOrder = (orderNumber: string) => {
+  return request<IOrdersResponse, IOptions>(`${apiUrl}/orders/${orderNumber}`);
 };
 
 export const api = {

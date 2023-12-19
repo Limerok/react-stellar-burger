@@ -1,12 +1,12 @@
 import { NavLink, Outlet,} from "react-router-dom";
 import styles from "./profile-page.module.css";
-import { useDispatch} from "react-redux";
 import { logout } from "../../services/user/action";
 import { RoutePathname } from "../../utils/constant";
+import { useAppDispatch } from "../../hooks/hooks";
 
-export const ProfilePage = () => {
+export const ProfilePage = (): JSX.Element => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className={`${styles.main}`}>
