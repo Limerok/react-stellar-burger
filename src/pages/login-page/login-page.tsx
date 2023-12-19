@@ -4,24 +4,24 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login-page.module.css";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { login } from "../../services/user/action";
 import { RoutePathname } from "../../utils/constant";
+import { useAppDispatch } from "../../hooks/hooks";
 
 
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   const { values, handleChange } = useForm({
     email: "",
     password: "",
 });
 
-const signIn = (e) => {
+const signIn = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault()
   if(values.email && values.password) {
       dispatch(
